@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Overidden ant styles */
+.ptop-progress {
+    .ant-progress {
+        line-height: 0%;
+    }
+
+    .ant-progress-inner .ant-progress-bg {
+        border-radius: 0%;
+    }
+}
+
+.gradient-control {
+    .ant-slider .ant-slider-track {
+        background-image: linear-gradient(to right, #34475D, #49A59A);
+    }
+}

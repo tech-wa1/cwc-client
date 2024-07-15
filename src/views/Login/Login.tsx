@@ -1,0 +1,26 @@
+import { Button, Input } from 'antd';
+import cwLogo from './../../assets/CT-cropped.svg';
+import wa1Logo from './../../assets/wa1_logo.svg';
+
+const Login = () => {
+    return (
+        <section className='flex flex-col items-center justify-center h-[98vh] relative'>
+            <div className='w-64 sm:w-96'>
+                <img src={cwLogo} alt="competitive wellness logo" className='w-full' />
+            </div>
+            <div className='w-64 sm:w-96 m-12'>
+                <div className='py-2'>
+                    <Input type='text' placeholder='email@domain.com' className='h-12 text-md'></Input>
+                </div>
+                <div className='py-2'>
+                    <Button className="w-full h-12 text-lg" type="primary" size="large">Log In</Button>
+                </div>
+            </div>
+            <div className='w-32 sm:w-48 absolute bottom-6 right-10'>
+                <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
+            </div>
+        </section>
+    )
+}
+
+export default Login
