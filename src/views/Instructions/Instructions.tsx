@@ -1,14 +1,44 @@
 import { InfoCircleOutlined } from "@ant-design/icons"
 import { Button, Radio } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
+import acceptTnc from "../../thunks/tncThunk"
+import { RootState } from "../../store/store"
+import { useState } from "react"
 
 const Instructions = () => {
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const [tncLocal, setTncLocal] = useState(false)
+    const tncAccepted = useAppSelector((root: RootState) => root.cwc.tncAccepted)
+
+    const { id } = useParams()
+
+    const handleTermsChange = () => {
+        setTncLocal(true)
+    }
+
+    const handleStartSurvey = async () => {
+        if (!tncLocal) {
+            alert("Accept Terms & Conditions to continue.")
+            return
+        }
+        const resp = await dispatch(acceptTnc(id || ""))
+        if (acceptTnc.fulfilled.match(resp)) {
+            navigate("../assessment")
+        } else {
+            alert("T&C check failed...Please contact Admin")
+        }
+
+    }
+
     return (
         <section className="m-3 font-roboto text-colorText text-sm lg:text-base lg:m-10">
             <div className="flex border-solid border-0 border-b border-colorPrimary">
                 <div className="py-2 lg:py-5 lg:w-9/12 text-xl font-bold lg:text-3xl">Welcome to your company's <span className="text-colorPrimary">Wellness</span> Check</div>
                 <div className="py-3 lg:w-3/12 hidden lg:block">
-                    <Button className="w-full h-12" type="primary" size="large">Start Survey</Button>
+                    <Button className="w-full h-12" type="primary" size="large" disabled={!tncAccepted} onClick={handleStartSurvey}>Start Survey</Button>
                 </div>
             </div>
 
@@ -49,10 +79,10 @@ const Instructions = () => {
                 </div>
             </div>
             <div className="py-3 lg:p-3">
-                <Radio className="lg:text-lg">I have read and agreed to the <Link to="/tnc">Terms & Conditions</Link></Radio>
+                <Radio className="lg:text-lg" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc">Terms & Conditions</Link></Radio>
             </div>
             <div className="py-3 w-full lg:hidden">
-                <Button className="w-full h-12" type="primary" size="large">Start Survey</Button>
+                <Button className="w-full h-12" type="primary" size="large" disabled={!tncAccepted} onClick={handleStartSurvey}>Start Survey</Button>
             </div>
         </section >
     )

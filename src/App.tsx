@@ -3,13 +3,25 @@ import Login from './views/Login/Login';
 import Instructions from './views/Instructions/Instructions';
 import Assessment from './views/Assessment/Assessment';
 import Success from './views/Success/Success';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import Base from './views/Base/Base';
+import Four0Four from './components/four0Four/four0Four';
+import AssessmentHOC from './views/AssessmentHOC/AssessmentHOC';
+
 
 function App() {
 
   const router = createBrowserRouter([
     {
+      id: "home",
+      path: "/",
+      element: <Four0Four />,
+    },
+    {
       id: "assessment",
       path: ":id",
+      element: <Base />,
       children: [
         {
           id: "login",
@@ -17,20 +29,29 @@ function App() {
           element: <Login />,
         },
         {
-          id: "start",
-          path: "start",
-          element: <Instructions />,
-        },
-        {
-          id: "question",
+          id: "assessmentHOC",
           path: "assessment",
-          element: <Assessment />,
+          element: <AssessmentHOC />,
+          children: [
+            {
+              id: "question",
+              path: ":qindex",
+              element: <Assessment />,
+            },
+            {
+              id: "success",
+              path: "thankyou",
+              element: <Success />,
+            },
+            {
+              id: "start",
+              path: "start",
+              element: <Instructions />,
+            },
+          ]
         },
-        {
-          id: "success",
-          path: "thankyou",
-          element: <Success />,
-        },
+
+
       ]
     }
 
@@ -72,7 +93,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} fallbackElement={<p className="text-centre text-lg bg-white text-colorText pt-20">Please wait...</p>} />
+      <Provider store={store}>
+        <RouterProvider router={router} fallbackElement={<p className="text-centre text-lg bg-white text-colorText pt-20">Please wait...</p>} />
+      </Provider>
     </>
   )
 }
