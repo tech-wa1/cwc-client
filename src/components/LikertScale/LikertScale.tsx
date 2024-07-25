@@ -1,5 +1,4 @@
 import { ConfigProvider, Button, Segmented } from "antd"
-import { IResponseLabel } from "../../common/types";
 
 interface IOption {
     id?: number | string;
