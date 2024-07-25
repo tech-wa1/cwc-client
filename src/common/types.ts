@@ -11,3 +11,10 @@ export interface IResponseLabel {
     label: string;
     value: number;
 }
+
+export interface IResponse {
+    question: number;
+    survey: string;
+    participant: string;
+    answer: number;
+}

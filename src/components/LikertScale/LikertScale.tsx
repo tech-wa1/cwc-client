@@ -1,13 +1,16 @@
 import { ConfigProvider, Button, Segmented } from "antd"
+import { IResponseLabel } from "../../common/types";
 
 interface IOption {
     id?: number | string;
     label: JSX.Element | string;
-    value: string | number
+    value: string | number;
 }
 
 interface ILikertScale {
-    options: Array<IOption>
+    options: Array<IOption>;
+    onChange: (answer: number) => void;
+    value: number
 }
 
 const likertTheme = {
@@ -37,13 +40,13 @@ const LikertScale = (props: ILikertScale) => {
     })
 
     const onChange = (selectedOption: IOption) => {
-        console.log(selectedOption)
+        props.onChange(Number(selectedOption.value))
     }
 
     return (
         <ConfigProvider theme={likertTheme}>
             <div className="gradient-control hidden lg:block">
-                <Segmented options={options} block />
+                <Segmented value={props.value} options={options} block />
             </div>
             <div className="gradient-control flex flex-col justify-center items-center lg:hidden my-6">
                 {options.map((option, index) => (

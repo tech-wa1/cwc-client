@@ -4,6 +4,7 @@ import getSurveyThunk from "../../thunks/getSurveyThunk"
 import { Outlet, useNavigate, useParams } from "react-router-dom"
 import { RootState } from "../../store/store"
 import { Button } from "antd"
+import getResponsesThunk from "../../thunks/getResponsesThunk"
 
 const AssessmentHOC = () => {
     const dispatch = useAppDispatch()
@@ -19,6 +20,7 @@ const AssessmentHOC = () => {
 
     const getSurveyDetail = async () => {
         const resp = await dispatch(getSurveyThunk({ id: id || "", pid }))
+        await dispatch(getResponsesThunk({ survey: id || "", participant: pid }))
         setLoadingSurvey(false)
         if (getSurveyThunk.fulfilled.match(resp)) {
             if (resp.payload.tnc_accepted) {
