@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import getSurveyThunk from "../../thunks/getSurveyThunk"
 import { Outlet, useNavigate, useParams } from "react-router-dom"
 import { RootState } from "../../store/store"
-import { Button } from "antd"
 import getResponsesThunk from "../../thunks/getResponsesThunk"
 import Success from "../Success/Success"
 
@@ -46,7 +45,7 @@ const AssessmentHOC = () => {
         }
     }, [navigate, tncAccepted])
 
-    
+
 
     const checkParticipant = () => {
         const local_pid = localStorage.getItem("pid")

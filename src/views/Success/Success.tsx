@@ -1,5 +1,5 @@
-import { Button, Rate } from "antd";
-import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+import { Button } from "antd";
+// import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,13 +7,13 @@ const Success = () => {
 
     const navigate = useNavigate()
 
-    const customIcons: Record<number, React.ReactNode> = {
-        1: <FrownOutlined />,
-        2: <FrownOutlined />,
-        3: <MehOutlined />,
-        4: <SmileOutlined />,
-        5: <SmileOutlined />,
-    };
+    // const customIcons: Record<number, React.ReactNode> = {
+    //     1: <FrownOutlined />,
+    //     2: <FrownOutlined />,
+    //     3: <MehOutlined />,
+    //     4: <SmileOutlined />,
+    //     5: <SmileOutlined />,
+    // };
 
     const goToLogin = () => {
         navigate("../login")
