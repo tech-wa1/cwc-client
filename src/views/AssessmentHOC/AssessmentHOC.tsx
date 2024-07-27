@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom"
 import { RootState } from "../../store/store"
 import { Button } from "antd"
 import getResponsesThunk from "../../thunks/getResponsesThunk"
+import Success from "../Success/Success"
 
 const AssessmentHOC = () => {
     const dispatch = useAppDispatch()
@@ -23,7 +24,7 @@ const AssessmentHOC = () => {
         await dispatch(getResponsesThunk({ survey: id || "", participant: pid }))
         setLoadingSurvey(false)
         if (getSurveyThunk.fulfilled.match(resp)) {
-            if (resp.payload.tnc_accepted) {
+            if (resp.payload.participant.tnc_accepted) {
                 navigate("1")
             } else {
                 navigate("start")
@@ -45,9 +46,7 @@ const AssessmentHOC = () => {
         }
     }, [navigate, tncAccepted])
 
-    const goToLogin = () => {
-        navigate("../login")
-    }
+    
 
     const checkParticipant = () => {
         const local_pid = localStorage.getItem("pid")
@@ -78,10 +77,7 @@ const AssessmentHOC = () => {
 
             {
                 !loadingSurvey && isSurveyActive && surveyCompleted && (
-                    <div className="h-[40vh] flex flex-col items-center justify-center text-roboto">
-                        <div className="w-full flex items-center justify-center text-colorText text-2xl">You are all set...this assessment is complete</div>
-                        <Button type="link" onClick={goToLogin}>Back to login</Button>
-                    </div>
+                    <Success />
                 )
             }
         </>

@@ -8,12 +8,14 @@ import { useState } from "react"
 
 const Instructions = () => {
 
+    const { id } = useParams()
+
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [tncLocal, setTncLocal] = useState(false)
     const tncAccepted = useAppSelector((root: RootState) => root.cwc.tncAccepted)
+    const pid = useAppSelector((root: RootState) => root.cwc.pid)
 
-    const { id } = useParams()
+    const [tncLocal, setTncLocal] = useState(tncAccepted)
 
     const handleTermsChange = () => {
         setTncLocal(true)
@@ -24,9 +26,9 @@ const Instructions = () => {
             alert("Accept Terms & Conditions to continue.")
             return
         }
-        const resp = await dispatch(acceptTnc(id || ""))
+        const resp = await dispatch(acceptTnc({ id: id || "", pid: pid || "" }))
         if (acceptTnc.fulfilled.match(resp)) {
-            navigate("../assessment")
+            navigate(`/${id}/assessment`)
         } else {
             alert("T&C check failed...Please contact Admin")
         }
@@ -38,7 +40,7 @@ const Instructions = () => {
             <div className="flex border-solid border-0 border-b border-colorPrimary">
                 <div className="py-2 lg:py-5 lg:w-9/12 text-xl font-bold lg:text-3xl">Welcome to your company's <span className="text-colorPrimary">Wellness</span> Check</div>
                 <div className="py-3 lg:w-3/12 hidden lg:block">
-                    <Button className="w-full h-12" type="primary" size="large" disabled={!tncAccepted} onClick={handleStartSurvey}>Start Survey</Button>
+                    <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
                 </div>
             </div>
 
@@ -82,7 +84,7 @@ const Instructions = () => {
                 <Radio className="lg:text-lg" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc">Terms & Conditions</Link></Radio>
             </div>
             <div className="py-3 w-full lg:hidden">
-                <Button className="w-full h-12" type="primary" size="large" disabled={!tncAccepted} onClick={handleStartSurvey}>Start Survey</Button>
+                <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
             </div>
         </section >
     )

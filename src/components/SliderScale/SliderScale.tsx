@@ -1,10 +1,9 @@
 import { ConfigProvider, Slider, SliderSingleProps } from "antd";
-import { useEffect, useState } from "react";
 
 
 interface ISliderScale {
     onChange: (answer: number) => void;
-    value: number
+    defaultValue: number
 }
 
 const sliderTheme = {
@@ -12,10 +11,10 @@ const sliderTheme = {
         "Slider": {
             "controlSize": 10,
             "handleSize": 20,
-            "railSize": 12,
+            "railSize": 6,
             "handleColor": "rgb(73, 165, 154)",
             "trackBg": "rgb(73, 165, 154)",
-            "dotSize": 2
+            "dotSize": 1
         }
     }
 }
@@ -34,11 +33,6 @@ const SliderScale = (props: ISliderScale) => {
         10: '10',
     };
 
-    const [slValue, setSlValue] = useState(props.value || 1)
-
-    useEffect(() => {
-        setSlValue(props.value)
-    }, [props.value])
 
     const handleOnChange = (val: number) => {
         props.onChange(val)
@@ -47,7 +41,7 @@ const SliderScale = (props: ISliderScale) => {
     return (
         <ConfigProvider theme={sliderTheme}>
             <div className="w-full lg:w-[800px] gradient-control">
-                <Slider marks={marks} step={1} defaultValue={slValue} max={10} min={1} onChangeComplete={handleOnChange} />
+                <Slider marks={marks} step={1} defaultValue={props.defaultValue} max={10} min={1} onChangeComplete={handleOnChange} />
             </div>
         </ConfigProvider>
 
