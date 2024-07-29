@@ -42,10 +42,14 @@ const LikertScale = (props: ILikertScale) => {
         props.onChange(Number(selectedOption.value))
     }
 
+    const onSegmentChange = (selectedOption: number | string) => {
+        props.onChange(Number(selectedOption))
+    }
+
     return (
         <ConfigProvider theme={likertTheme}>
             <div className="gradient-control hidden lg:block">
-                <Segmented value={props.value} options={options} block />
+                <Segmented defaultValue={props.value} options={options} block onChange={onSegmentChange} />
             </div>
             <div className="gradient-control flex flex-col justify-center items-center lg:hidden my-6">
                 {options.map((option, index) => (

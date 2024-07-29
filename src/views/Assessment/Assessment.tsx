@@ -69,9 +69,9 @@ const Assessment = () => {
         if (!currentQuestion) {
             return
         }
-        if (currentQuestion.question_type === 2) {
+        if (currentQuestion.question_type === 1) {
             return <LikertScale value={answers[current_qa_index]} options={currentQuestion.response_labels || defaultOptions} onChange={handleControlChange} key={`lsi${currentQuestion.id}`} />
-        } else if (currentQuestion.question_type === 1) {
+        } else if (currentQuestion.question_type === 2) {
             return <SliderScale defaultValue={answers[current_qa_index]} onChange={handleControlChange} key={`sci${currentQuestion.id}`} />
         } else {
             return <div key={`invalid${currentQuestion.id}`} >Invalid control component. Please contact the assessment administrator</div>
