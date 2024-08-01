@@ -1,5 +1,5 @@
 export interface IQuestion {
-    id?: number;
+    id: number;
     question: string;
     description?: string;
     question_type: number;

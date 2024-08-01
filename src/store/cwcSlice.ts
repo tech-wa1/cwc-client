@@ -53,7 +53,9 @@ export const cwcSlice = createSlice({
             state.tncAccepted = true
         })
         builder.addCase(getSurveyThunk.fulfilled, (state, action) => {
-            state.questions = action.payload.questions
+            state.questions = action.payload.questions.sort(function (a: IQuestion, b: IQuestion) {
+                return a.id - b.id;
+            });
             state.survey_active = !!action.payload.is_active
             state.tncAccepted = !!action.payload.participant.tnc_accepted
             state.surveyCompleted = !!action.payload.participant.survey_complete
