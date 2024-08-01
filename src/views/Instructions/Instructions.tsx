@@ -28,7 +28,7 @@ const Instructions = () => {
         }
         const resp = await dispatch(acceptTnc({ id: id || "", pid: pid || "" }))
         if (acceptTnc.fulfilled.match(resp)) {
-            navigate(`/${id}/assessment`)
+            navigate(`/${id}/assessment/1`)
         } else {
             alert("T&C check failed...Please contact Admin")
         }
