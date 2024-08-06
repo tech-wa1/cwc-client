@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
 import setResponsesThunk from "../../thunks/setResponsesThunk"
 import { IQuestion } from "../../common/types"
+import wa1Logo from './../../assets/wa1_logo.svg';
 
 const defaultOptions = [{
     label: 'No',
@@ -193,6 +194,9 @@ const Assessment = () => {
 
                                 </div>
                             </div>
+                        </div>
+                        <div className='w-32 sm:w-48 absolute bottom-6 right-10'>
+                            <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
                         </div>
                     </section>
                 </>

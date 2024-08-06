@@ -1,7 +1,7 @@
 import { Button } from "antd";
 // import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
-
+import wa1Logo from "./../../assets/wa1_logo.svg";
 
 const Success = () => {
 
@@ -33,6 +33,9 @@ const Success = () => {
             </div> */}
             <div className="p-5 mt-5 flex items-center justify-center">
                 <Button type="link" onClick={goToLogin}>Back to login</Button>
+            </div>
+            <div className='w-32 sm:w-48 absolute bottom-6 right-10'>
+                <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
             </div>
         </section>
 
