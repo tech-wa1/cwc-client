@@ -164,21 +164,25 @@ const Assessment = () => {
                         </div>
                         <div className="h-[80vh] flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
-                            <div className="h-96 flex flex-col justify-center ">
+                            <div className="h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-lg bg-gray-300 bg-opacity-10">
                                 <div className="flex items-center m-auto justify-center lg:w-10/12">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
                                     </div>
-                                    <div className="ml-2">
-                                        <InfoCircleOutlined />
-                                    </div>
+                                    {
+                                        questions[current_question_num - 1].description && (
+                                            <div className="ml-2">
+                                                <InfoCircleOutlined />
+                                            </div>
+                                        )
+                                    }
                                 </div>
                                 <div className="flex items-center m-auto justify-center w-full">
                                     {
                                         questionControls[current_question_num - 1]
                                     }
                                 </div>
-                                <div className="flex justify-center my-16">
+                                <div className="flex items-center m-auto justify-center w-full">
                                     {
                                         current_question_num < questions.length ? (
                                             <Button type="primary" size="large" className="px-10 h-12" onClick={handleNext}>Next</Button>
