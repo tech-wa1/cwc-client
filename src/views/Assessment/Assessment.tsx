@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, InfoCircleOutlined } from "@ant-design/icons"
-import { Button, Modal, Progress } from "antd"
+import { Button, Modal, Popover, Progress } from "antd"
 import LikertScale from "../../components/LikertScale/LikertScale"
 import SliderScale from "../../components/SliderScale/SliderScale"
 import { useNavigate, useParams } from "react-router-dom"
@@ -9,8 +9,9 @@ import { updateSurveyProgress } from "../../store/cwcSlice"
 import { useEffect, useState } from "react"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
 import setResponsesThunk from "../../thunks/setResponsesThunk"
-import { IQuestion } from "../../common/types"
+import { ICoreValueAnswer, IQuestion } from "../../common/types"
 import wa1Logo from './../../assets/wa1_logo.svg';
+import CoreValueScale from "../../components/CoreValueScale/CoreValueScale"
 
 const defaultOptions = [{
     label: 'No',
@@ -24,6 +25,8 @@ const defaultOptions = [{
     label: 'Likely',
     value: 'likely'
 }]
+
+
 
 
 const Assessment = () => {
@@ -42,25 +45,24 @@ const Assessment = () => {
     const questions = useAppSelector((root: RootState) => root.cwc.questions)
     const responses = useAppSelector((root: RootState) => root.cwc.responses)
     const pid = useAppSelector((root: RootState) => root.cwc.pid)
+    const coreValues = useAppSelector((root: RootState) => root.cwc.coreValues);
 
     const [showSubmitModal, setShowSubmitModal] = useState(false)
-    const [answers, setAnswers] = useState<Array<number>>([])
-    const [answersModifiedFlag, setAnswerModifiedFlag] = useState(false)
+    const [answers, setAnswers] = useState<Array<number | ICoreValueAnswer[]>>([])
 
 
 
-    const handleControlChange = (answer: number) => {
+    const handleControlChange = (answer: number | ICoreValueAnswer[]) => {
         const answersCopy = [...answers]
         answersCopy[current_qa_index] = answer
         setAnswers(answersCopy)
-        setAnswerModifiedFlag(true)
     }
 
 
 
     useEffect(() => {
         const tempAnswers: number[] = []
-        responses.map(res => {
+        responses && responses.length > 0 && responses.map(res => {
             tempAnswers.push(res.answer || 1)
         })
         setAnswers(tempAnswers)
@@ -71,9 +73,11 @@ const Assessment = () => {
             return
         }
         if (currentQuestion.question_type === 1) {
-            return <LikertScale value={answers[current_qa_index]} options={currentQuestion.response_labels || defaultOptions} onChange={handleControlChange} key={`lsi${currentQuestion.id}`} />
+            return <LikertScale value={answers[current_qa_index] as number} options={currentQuestion.response_labels || defaultOptions} onChange={handleControlChange} key={`lsi${currentQuestion.id}`} />
         } else if (currentQuestion.question_type === 2) {
-            return <SliderScale defaultValue={answers[current_qa_index]} onChange={handleControlChange} key={`sci${currentQuestion.id}`} />
+            return <SliderScale defaultValue={answers[current_qa_index] as number} onChange={handleControlChange} key={`sci${currentQuestion.id}`} />
+        } else if (currentQuestion.question_type === 3) {
+            return <CoreValueScale currentAnswers={answers[current_qa_index] as ICoreValueAnswer[]} coreValues={coreValues} key={`sci${currentQuestion.id}`} onChange={handleControlChange} />
         } else {
             return <div key={`invalid${currentQuestion.id}`} >Invalid control component. Please contact the assessment administrator</div>
         }
@@ -93,26 +97,38 @@ const Assessment = () => {
 
     }
 
-    const handleNext = async () => {
+    const handleSubmit = () => {
+        setShowSubmitModal(true)
+    }
+
+    const getDefaultValue = (questionType: number) => {
+        if (questionType === 3) {
+            return coreValues.map(value => {
+                return {
+                    value: value.id,
+                    answer: 1
+                }
+            })
+        }
+        return 1
+    }
+
+    const handleNext = async (isSubmit: Boolean = false) => {
         if (!current_question_num || !id || !questions[current_qa_index].id) {
             return
         }
-        if (answersModifiedFlag) {
-            // if the answer was modified make an API call to update the response
-            const resp = await dispatch(setResponsesThunk({
-                survey: id,
-                participant: pid,
-                question: Number(questions[current_qa_index].id),
-                answer: answers[current_qa_index]
-            }))
-            if (setResponsesThunk.fulfilled.match(resp)) {
-                setAnswerModifiedFlag(false)
-                moveToNext()
-            }
-        } else {
-            //else if answer is not modified move to next question with no API call.
-            moveToNext()
+        // if the answer was modified make an API call to update the response
+        const resp = await dispatch(setResponsesThunk({
+            survey: id,
+            participant: pid,
+            question: Number(questions[current_qa_index].id),
+            answer: answers[current_qa_index] || getDefaultValue(questions[current_qa_index].question_type),
+            questionType: questions[current_qa_index].question_type === 3 ? "value_rating_scale" : "rating_scale"
+        }))
+        if (setResponsesThunk.fulfilled.match(resp)) {
+            isSubmit ? handleSubmit() : moveToNext()
         }
+
     }
 
     const goBack = () => {
@@ -120,10 +136,6 @@ const Assessment = () => {
             return
         }
         navigate(`../${current_question_num - 1}`)
-    }
-
-    const handleSubmit = () => {
-        setShowSubmitModal(true)
     }
 
     const handleCancel = () => {
@@ -165,16 +177,18 @@ const Assessment = () => {
                         </div>
                         <div className="h-[80vh] flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
-                            <div className="h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-lg bg-gray-300 bg-opacity-10">
+                            <div className="min-h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-lg bg-gray-300 bg-opacity-10">
                                 <div className="flex items-center m-auto justify-center lg:w-10/12">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
                                     </div>
                                     {
                                         questions[current_question_num - 1].description && (
-                                            <div className="ml-2">
-                                                <InfoCircleOutlined />
-                                            </div>
+                                            <Popover content={questions[current_question_num - 1].description}>
+                                                <div className="ml-2 cursor-pointer">
+                                                    <InfoCircleOutlined />
+                                                </div>
+                                            </Popover>
                                         )
                                     }
                                 </div>
@@ -186,9 +200,9 @@ const Assessment = () => {
                                 <div className="flex items-center m-auto justify-center w-full">
                                     {
                                         current_question_num < questions.length ? (
-                                            <Button type="primary" size="large" className="px-10 h-12" onClick={handleNext}>Next</Button>
+                                            <Button type="primary" size="large" className="px-10 h-12" onClick={() => handleNext(false)}>Next</Button>
                                         ) : (
-                                            <Button type="primary" size="large" className="px-10 h-12" onClick={handleSubmit}>Submit Survey</Button>
+                                            <Button type="primary" size="large" className="px-10 h-12" onClick={() => handleNext(true)}>Submit Survey</Button>
                                         )
                                     }
 

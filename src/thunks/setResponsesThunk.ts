@@ -1,13 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { post } from "../common/api"
 import { setResponseUrl } from "../common/apiUrls"
+import { ICoreValueAnswer } from "../common/types"
 
 
 interface ISetResponsesThunk {
     survey: string,
     participant: string,
     question: number,
-    answer: number
+    answer: number | ICoreValueAnswer[],
+    questionType: string
 }
 
 const setResponsesThunk = createAsyncThunk(

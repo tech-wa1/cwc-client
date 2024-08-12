@@ -4,30 +4,35 @@ import verifySurvey from '../thunks/verifyThunk'
 import loginParticipant from '../thunks/loginThunk'
 import acceptTnc from '../thunks/tncThunk'
 import getSurveyThunk from '../thunks/getSurveyThunk'
-import { IQuestion, IResponse } from '../common/types'
+import { IQuestion, IResponse, ICoreValue } from '../common/types'
 import completeSurveyThunk from '../thunks/completeSurveyThunk'
 import getResponsesThunk from '../thunks/getResponsesThunk'
+import getClientValuesThunk from '../thunks/getClientValuesThunk'
 
 export interface CwcState {
     isValidSurvey: boolean,
     pid: string,
+    clientId: string,
     tncAccepted: boolean,
     questions: Array<IQuestion>,
     survey_active: boolean,
     surveyPercentage: number,
     surveyCompleted: boolean,
-    responses: Array<IResponse>
+    responses: Array<IResponse>,
+    coreValues: Array<ICoreValue>
 }
 
 const initialState: CwcState = {
     isValidSurvey: false,
     pid: localStorage.getItem("pid") || "",
+    clientId: "",
     tncAccepted: false,
     questions: [],
     survey_active: false,
     surveyPercentage: 0,
     surveyCompleted: false,
-    responses: []
+    responses: [],
+    coreValues: []
 }
 
 export const cwcSlice = createSlice({
@@ -59,12 +64,16 @@ export const cwcSlice = createSlice({
             state.survey_active = !!action.payload.is_active
             state.tncAccepted = !!action.payload.participant.tnc_accepted
             state.surveyCompleted = !!action.payload.participant.survey_complete
+            state.clientId = action.payload.client
         })
         builder.addCase(completeSurveyThunk.fulfilled, (state) => {
             state.surveyCompleted = true
         })
         builder.addCase(getResponsesThunk.fulfilled, (state, action) => {
             state.responses = action.payload
+        })
+        builder.addCase(getClientValuesThunk.fulfilled, (state, action) => {
+            state.coreValues = action.payload
         })
     }
 })

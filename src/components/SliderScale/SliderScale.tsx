@@ -40,7 +40,7 @@ const SliderScale = (props: ISliderScale) => {
 
     return (
         <ConfigProvider theme={sliderTheme}>
-            <div className="w-full lg:w-[800px] gradient-control">
+            <div className="w-full lg:w-[800px] gradient-control" key={`sld${props.defaultValue || 0}`}>
                 <Slider marks={marks} step={1} defaultValue={props.defaultValue} max={10} min={1} onChangeComplete={handleOnChange} />
             </div>
         </ConfigProvider>

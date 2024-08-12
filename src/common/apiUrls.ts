@@ -5,3 +5,4 @@ export const getSUrveyUrl = (id: string, pid: string) => `/survey/${id}/particip
 export const getResponseUrl = (id: string, pid: string) => `/survey/${id}/response/${pid}`
 export const setResponseUrl = 'survey/response'
 export const completeSurveyUrl = "/survey/complete"
+export const getClientValuesUrl = (id: string) => `/client/${id}/values/`

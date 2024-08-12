@@ -18,3 +18,15 @@ export interface IResponse {
     participant: string;
     answer: number;
 }
+
+export interface ICoreValue {
+    id: number;
+    status: boolean;
+    title: string;
+    description: string;
+}
+
+export interface ICoreValueAnswer {
+    value: number,
+    answer: number
+}

@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom"
 import { RootState } from "../../store/store"
 import getResponsesThunk from "../../thunks/getResponsesThunk"
 import Success from "../Success/Success"
+import getClientValuesThunk from "../../thunks/getClientValuesThunk"
 
 const AssessmentHOC = () => {
     const dispatch = useAppDispatch()
@@ -15,6 +16,7 @@ const AssessmentHOC = () => {
     const tncAccepted = useAppSelector((root: RootState) => root.cwc.tncAccepted)
     const surveyCompleted = useAppSelector((root: RootState) => root.cwc.surveyCompleted)
     const pid = useAppSelector((root: RootState) => root.cwc.pid) || localStorage.getItem("pid") || ""
+    const clientId = useAppSelector((root: RootState) => root.cwc.clientId)
 
     const { id } = useParams()
 
@@ -32,12 +34,20 @@ const AssessmentHOC = () => {
         // get response
     }
 
+    const getClientValues = () => {
+        dispatch(getClientValuesThunk({ id: clientId || "" }))
+    }
+
     useEffect(() => {
         checkParticipant()
         setLoadingSurvey(true)
         getSurveyDetail()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    //Get core values when client id is updated
+    useEffect(() => {
+        getClientValues()
+    }, [clientId])
 
     useEffect(() => {
         if (tncAccepted) {

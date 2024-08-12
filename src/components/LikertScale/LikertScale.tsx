@@ -48,7 +48,7 @@ const LikertScale = (props: ILikertScale) => {
 
     return (
         <ConfigProvider theme={likertTheme}>
-            <div className="gradient-control hidden lg:block">
+            <div className="gradient-control hidden lg:block" key={`lksd${props.value || 0}`}>
                 <Segmented defaultValue={props.value} options={options} block onChange={onSegmentChange} />
             </div>
             <div className="gradient-control flex flex-col justify-center items-center lg:hidden my-6">
