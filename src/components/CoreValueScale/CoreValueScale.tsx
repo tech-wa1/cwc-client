@@ -60,12 +60,15 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 			{coreValues.length > 0 &&
 				coreValues.map((coreValue) => (
 					<div className="flex mx-3 my-10 items-center justify-start" key={`cvi${coreValue.id}`}>
-						<div>{coreValue.title}</div>
-						<div className="ml-2 cursor-pointer">
-							<Popover content={getPopOverContent(coreValue.description)}>
-								<InfoCircleOutlined />
-							</Popover>
+						<div className="w-36">
+							{coreValue.title}
+							<span className="ml-2 cursor-pointer">
+								<Popover content={getPopOverContent(coreValue.description)}>
+									<InfoCircleOutlined />
+								</Popover>
+							</span>
 						</div>
+
 						<div className="ml-16" key={`ev${getCurrentScoreById(coreValue.id)}`}>
 							<SliderScale
 								defaultValue={getCurrentScoreById(coreValue.id)}
