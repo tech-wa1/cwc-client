@@ -166,7 +166,7 @@ const Assessment = () => {
                         <Progress percent={surveyPercent} showInfo={false} className="fixed top-0 left-0" />
                     </div>
                     <section className="m-3 font-roboto">
-                        <div className="py-2">
+                        <div className="py-2 h-20">
                             {
                                 current_question_num > 1 && (
                                     <Button type="text" className="p-3" onClick={goBack}>
@@ -175,9 +175,9 @@ const Assessment = () => {
                                 )
                             }
                         </div>
-                        <div className="h-[80vh] flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
+                        <div className="flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
-                            <div className="min-h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-lg bg-gray-300 bg-opacity-10">
+                            <div className="min-h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
                                 <div className="flex items-center m-auto justify-center lg:w-10/12">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
@@ -209,7 +209,7 @@ const Assessment = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-32 sm:w-48 absolute bottom-6 right-10'>
+                        <div className='w-32 sm:w-48 float-right m-20'>
                             <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
                         </div>
                     </section>

@@ -1,5 +1,5 @@
 import { InfoCircleOutlined } from "@ant-design/icons"
-import { Button, Radio } from "antd"
+import { Button, Checkbox, Radio } from "antd"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import acceptTnc from "../../thunks/tncThunk"
@@ -18,7 +18,7 @@ const Instructions = () => {
     const [tncLocal, setTncLocal] = useState(tncAccepted)
 
     const handleTermsChange = () => {
-        setTncLocal(true)
+        setTncLocal(!tncLocal)
     }
 
     const handleStartSurvey = async () => {
@@ -37,14 +37,15 @@ const Instructions = () => {
 
     return (
         <section className="m-3 font-roboto text-colorText text-sm lg:text-base lg:m-10">
-            <div className="flex border-solid border-0 border-b border-colorPrimary">
-                <div className="py-2 lg:py-5 lg:w-9/12 text-xl font-bold lg:text-3xl">Welcome to your company's <span className="text-colorPrimary">Wellness</span> Check</div>
-                <div className="py-3 lg:w-3/12 hidden lg:block">
+            <div className="flex border-solid border-0 border-b border-colorPrimary lg:fixed w-full bg-white top-0 left-0">
+                <div className="py-2 lg:p-5 lg:w-9/12 text-xl font-bold lg:text-3xl lg:flex items-center">Welcome to your company's <div className="text-colorPrimary px-2 inline"> Wellness</div> Check</div>
+                <div className="p-3 lg:w-3/12 hidden lg:block">
                     <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
+                    <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-center" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
                 </div>
             </div>
 
-            <div className="lg:flex items-start justify-evenly lg:m-auto">
+            <div className="lg:flex lg:pt-24 items-start justify-evenly lg:m-auto">
                 <div className="py-2 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">About</h3>
                     <p className="py-1">This is a template for designing wireframes when you want to present your document to clients.</p>
@@ -80,7 +81,7 @@ const Instructions = () => {
                     </ul>
                 </div>
             </div>
-            <div className="py-3 lg:p-3">
+            <div className="py-3 lg:p-3 lg:hidden">
                 <Radio className="lg:text-lg" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc">Terms & Conditions</Link></Radio>
             </div>
             <div className="py-3 w-full lg:hidden">

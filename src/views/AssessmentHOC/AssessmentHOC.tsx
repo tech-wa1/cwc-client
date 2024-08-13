@@ -25,11 +25,11 @@ const AssessmentHOC = () => {
         await dispatch(getResponsesThunk({ survey: id || "", participant: pid }))
         setLoadingSurvey(false)
         if (getSurveyThunk.fulfilled.match(resp)) {
-            if (resp.payload.participant.tnc_accepted) {
-                navigate("1")
-            } else {
-                navigate("start")
-            }
+            // if (resp.payload.participant.tnc_accepted) {
+            //     navigate("1")
+            // } else {
+            navigate("start")
+            // }
         }
         // get response
     }

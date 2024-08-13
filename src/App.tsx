@@ -8,6 +8,7 @@ import { store } from './store/store';
 import Base from './views/Base/Base';
 import Four0Four from './components/four0Four/four0Four';
 import AssessmentHOC from './views/AssessmentHOC/AssessmentHOC';
+import TermsAndConditions from './views/TermsAndConditions/TermsAndConditions';
 
 
 function App() {
@@ -17,6 +18,11 @@ function App() {
       id: "home",
       path: "/",
       element: <Four0Four />,
+    },
+    {
+      id: "tnc",
+      path: "tnc",
+      element: <TermsAndConditions />,
     },
     {
       id: "assessment",

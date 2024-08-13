@@ -18,3 +18,7 @@
         background-image: linear-gradient(to right, #34475D, #49A59A);
     }
 }
+
+.ant-slider-mark {
+    pointer-events: none;
+}
