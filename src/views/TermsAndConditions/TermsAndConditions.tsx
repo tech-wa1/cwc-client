@@ -82,7 +82,7 @@ const TermsAndConditions = () => {
             <h2>Contact Information</h2>
             <p>
                 If you have any questions or concerns regarding these terms and conditions or the
-                assessment, please contact us at [insert contact email or phone number].
+                assessment, please contact us at <a href="mailto:team@workingas1.com">team@workingas1.com</a>.
             </p>
 
             <h2>Disclaimer</h2>

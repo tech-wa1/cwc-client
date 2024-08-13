@@ -177,8 +177,8 @@ const Assessment = () => {
                         </div>
                         <div className="flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
-                            <div className="min-h-96 flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
-                                <div className="flex items-center m-auto justify-center lg:w-10/12">
+                            <div className="min-h-96 lg:min-w-[900px] flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
+                                <div className="flex items-center m-auto justify-center lg:w-10/12 lg:h-20">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
                                     </div>
@@ -197,7 +197,7 @@ const Assessment = () => {
                                         questionControls[current_question_num - 1]
                                     }
                                 </div>
-                                <div className="flex items-center m-auto justify-center w-full">
+                                <div className="flex items-center m-auto justify-center w-full lg:h-20">
                                     {
                                         current_question_num < questions.length ? (
                                             <Button type="primary" size="large" className="px-10 h-12" onClick={() => handleNext(false)}>Next</Button>
