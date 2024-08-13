@@ -35,7 +35,6 @@ const SliderScale = (props: ISliderScale) => {
 
 
     const handleOnChange = (val: number) => {
-        console.log("selected")
         props.onChange(val)
     }
 
