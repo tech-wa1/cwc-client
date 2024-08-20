@@ -57,7 +57,7 @@ const Instructions = () => {
                     </p>
 
                     <p className="py-1 text-justify">
-                        This Competitive Wellness assesment reports on these essential components, providing insights into how they collectively shape the workplace environment in mastering culture, engagement, productivity and growth.
+                        This Competitive Wellness assesment reports on these essential components, providing insights into how they collectively shape the workplace environment in mastering engagement, productivity and growth.
                     </p>
                 </div>
                 <div className="py-3 lg:w-5/12">
@@ -72,16 +72,14 @@ const Instructions = () => {
                         <li className="py-1 text-justify">Your participation is voluntary, and you can exit or pause the survey at
                             any time. Use the provided link to return later if needed.</li>
                         <li className="py-1 text-justify">The survey should take approximately 15 minutes to complete. Please
-                            submit by [deadline date].</li>
+                            submit by deadline date.</li>
                         <li className="py-1 text-justify">Your progress is shown at the top of each page. Use the
-                            "Next"
                             <Button type="primary" size="small" className="px-5 h-6 mx-2 text-xs">Next</Button>
-                            and
-                            "Back"
+                            button to move forward and
                             <div className="border border-solid border-slate-300 mx-2 inline-block rounded-lg p-0 ">
                                 <ArrowLeftOutlined className="p-1 px-2 text-sm" />
                             </div>
-                            buttons to navigate, not your browser buttons.</li>
+                            button to navigate back. Avoid using your browser buttons to navigate.</li>
                         <li className="py-1 text-justify">Questions marked with the icon <InfoCircleOutlined /> will provide additional
                             information about the question and its expected outcomes.</li>
                         <li className="py-1 text-justify">At the end of the survey, click
@@ -98,7 +96,7 @@ const Instructions = () => {
                 </div>
             </div>
             <div className="py-3 lg:p-3 lg:hidden">
-                <Radio className="lg:text-lg" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc">Terms & Conditions</Link></Radio>
+                <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
             </div>
             <div className="py-3 w-full lg:hidden">
                 <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
