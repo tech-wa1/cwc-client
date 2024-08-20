@@ -53,14 +53,14 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 	}
 
 	return (
-		<div className="p-3">
+		<div className="p-3 w-full lg:w-auto">
 			{(!coreValues || coreValues.length <= 0) && (
 				<div>Core values not found</div>
 			)}
 			{coreValues.length > 0 &&
 				coreValues.map((coreValue) => (
-					<div className="flex mx-3 my-10 items-center justify-start" key={`cvi${coreValue.id}`}>
-						<div className="w-36">
+					<div className="flex flex-col lg:flex-row lg:mx-3 my-10 items-center lg:justify-start w-full lg:w-auto" key={`cvi${coreValue.id}`}>
+						<div className="lg:w-36">
 							{coreValue.title}
 							<span className="ml-2 cursor-pointer">
 								<Popover content={getPopOverContent(coreValue.description)}>
@@ -69,7 +69,7 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 							</span>
 						</div>
 
-						<div className="ml-16" key={`ev${getCurrentScoreById(coreValue.id)}`}>
+						<div className="lg:ml-16 w-full" key={`ev${getCurrentScoreById(coreValue.id)}`}>
 							<SliderScale
 								defaultValue={getCurrentScoreById(coreValue.id)}
 								onChange={(answer: number) => handleControlChange(coreValue.id, answer)}

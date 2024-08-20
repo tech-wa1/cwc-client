@@ -51,7 +51,7 @@ const LikertScale = (props: ILikertScale) => {
             <div className="gradient-control hidden lg:block" key={`lksd${props.value || 0}`}>
                 <Segmented defaultValue={props.value} options={options} block onChange={onSegmentChange} />
             </div>
-            <div className="gradient-control flex flex-col justify-center items-center lg:hidden my-6">
+            <div className="gradient-control flex flex-col gap-3 justify-center items-center lg:hidden my-6">
                 {options.map((option, index) => (
                     <Button className="w-60 h-12" type="default" onClick={() => onChange(option)} key={index}>{option.label}</Button>
                 ))}

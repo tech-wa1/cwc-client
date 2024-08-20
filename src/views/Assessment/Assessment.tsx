@@ -177,7 +177,7 @@ const Assessment = () => {
                         </div>
                         <div className="flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
-                            <div className="min-h-96 lg:min-w-[900px] flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
+                            <div className="min-w-[90%] min-h-96 lg:min-w-[900px] flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
                                 <div className="flex items-center m-auto justify-center lg:w-10/12 lg:h-20">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
@@ -209,7 +209,7 @@ const Assessment = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-32 sm:w-48 float-right m-20'>
+                        <div className='w-32 sm:w-48 m-auto my-20 lg:float-right lg:m-20'>
                             <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
                         </div>
                     </section>
