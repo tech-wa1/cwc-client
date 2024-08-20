@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from "@ant-design/icons"
+import { ArrowLeftOutlined, InfoCircleOutlined } from "@ant-design/icons"
 import { Button, Checkbox, Radio } from "antd"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
@@ -48,42 +48,51 @@ const Instructions = () => {
             <div className="lg:flex lg:pt-24 items-start justify-evenly lg:m-auto">
                 <div className="py-2 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">About</h3>
-                    <li className="py-1">
+                    <p className="py-1 text-justify">
                         In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: communication, capacity, capability and connection.
-                    </li>
+                    </p>
 
-                    <li className="py-1">
+                    <p className="py-1 text-justify">
                         These elements not only drive employee and team success but also ensure that the business remains aligned with its overarching goals and values.
-                    </li>
+                    </p>
 
-                    <li className="py-1">
+                    <p className="py-1 text-justify">
                         This Competitive Wellness assesment reports on these essential components, providing insights into how they collectively shape the workplace environment in mastering culture, engagement, productivity and growth.
-                    </li>
+                    </p>
                 </div>
                 <div className="py-3 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">Instructions</h3>
                     <ul className="px-3 tracking-wide">
-                        <li className="py-1">This confidential assessment seeks your honest feedback to
+                        <li className="py-1 text-justify">This confidential assessment seeks your honest feedback to
                             drive positive change. Your unique perspectives will provide
                             valuable insights. There are no right or wrong answers—your
                             authentic opinion matters most.</li>
-                        <li className="py-1">Please read each question carefully. Select the option that best
+                        <li className="py-1 text-justify">Please read each question carefully. Select the option that best
                             represents your view.</li>
-                        <li className="py-1">Your participation is voluntary, and you can exit or pause the survey at
+                        <li className="py-1 text-justify">Your participation is voluntary, and you can exit or pause the survey at
                             any time. Use the provided link to return later if needed.</li>
-                        <li className="py-1">The survey should take approximately 15 minutes to complete. Please
+                        <li className="py-1 text-justify">The survey should take approximately 15 minutes to complete. Please
                             submit by [deadline date].</li>
-                        <li className="py-1">Your progress is shown at the top of each page. Use the "Next" and
-                            "Back" buttons to navigate, not your browser buttons.</li>
-                        <li className="py-1">Questions marked with the icon <InfoCircleOutlined /> will provide additional
+                        <li className="py-1 text-justify">Your progress is shown at the top of each page. Use the
+                            "Next"
+                            <Button type="primary" size="small" className="px-5 h-6 mx-2 text-xs">Next</Button>
+                            and
+                            "Back"
+                            <div className="border border-solid border-slate-300 mx-2 inline-block rounded-lg p-0 ">
+                                <ArrowLeftOutlined className="p-1 px-2 text-sm" />
+                            </div>
+                            buttons to navigate, not your browser buttons.</li>
+                        <li className="py-1 text-justify">Questions marked with the icon <InfoCircleOutlined /> will provide additional
                             information about the question and its expected outcomes.</li>
-                        <li className="py-1">At the end of the survey, click "Submit" to ensure your responses are
+                        <li className="py-1 text-justify">At the end of the survey, click
+                            <Button type="primary" size="small" className="px-5 h-6 mx-2 text-xs">Submit</Button>
+                            to ensure your responses are
                             recorded.</li>
-                        <li className="py-1">Your individual responses will remain confidential and will only be used
+                        <li className="py-1 text-justify">Your individual responses will remain confidential and will only be used
                             in aggregate form.</li>
-                        <li className="py-1">For technical issues, contact <a href="mailto:support@workingas1.com">support@workingas1.com</a>. For questions
+                        <li className="py-1 text-justify">For technical issues, contact <a href="mailto:support@workingas1.com">support@workingas1.com</a>. For questions
                             about survey content, contact <a href="mailto:team@workingas1.com">team@workingas1.com</a>.</li>
-                        <li className="py-1">Remember, your honest feedback is valuable and will contribute
+                        <li className="py-1 text-justify">Remember, your honest feedback is valuable and will contribute
                             to workplace improvements.</li>
                     </ul>
                 </div>
