@@ -41,21 +41,28 @@ const Instructions = () => {
                 <div className="py-2 lg:p-5 lg:w-9/12 text-xl font-bold lg:text-3xl lg:flex items-center">Welcome to your company's <div className="text-colorPrimary px-2 inline"> Wellness</div> Check</div>
                 <div className="p-3 lg:w-3/12 hidden lg:block">
                     <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
-                    <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-center" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
+                    <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
                 </div>
             </div>
 
             <div className="lg:flex lg:pt-24 items-start justify-evenly lg:m-auto">
                 <div className="py-2 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">About</h3>
-                    <p className="py-1">This is a template for designing wireframes when you want to present your document to clients.</p>
-                    <p className="py-1">Mockups is made for low-fidelity, rapid idea generation. We believe it's best to use the Sketch Skin when you're working internally, within your team. However, when it comes time to present to clients, many people want to present something that doesn't have that Sketchy look. This template works well in those cases when you want to use the Wireframe Skin.</p>
-                    <p className="py-1">Whether you work in an agency and need to present something a little cleaner to clients, or you work in a company that is going to present your ideas to stakeholders that want to see something polished, this</p>
+                    <li className="py-1">
+                        In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: communication, capacity, capability and connection.
+                    </li>
+
+                    <li className="py-1">
+                        These elements not only drive employee and team success but also ensure that the business remains aligned with its overarching goals and values.
+                    </li>
+
+                    <li className="py-1">
+                        This Competitive Wellness assesment reports on these essential components, providing insights into how they collectively shape the workplace environment in mastering culture, engagement, productivity and growth.
+                    </li>
                 </div>
                 <div className="py-3 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">Instructions</h3>
                     <ul className="px-3 tracking-wide">
-
                         <li className="py-1">This confidential assessment seeks your honest feedback to
                             drive positive change. Your unique perspectives will provide
                             valuable insights. There are no right or wrong answers—your
