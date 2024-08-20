@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, InfoCircleOutlined } from "@ant-design/icons"
-import { Button, Checkbox, Radio } from "antd"
+import { Button, Checkbox } from "antd"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import acceptTnc from "../../thunks/tncThunk"
