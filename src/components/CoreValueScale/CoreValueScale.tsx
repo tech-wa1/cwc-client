@@ -43,13 +43,17 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 	};
 
 	const getPopOverContent = (description: string) => (
-		<div className="w-96 p-4">
+		<div>
 			{description}
 		</div>
 	)
 
 	const getCurrentScoreById = (id: number) => {
-		return valueScores.filter(valueScore => valueScore.value === id)[0].answer
+		const res = valueScores.filter(valueScore => valueScore.value === id)[0]
+		if (res) {
+			return res.answer
+		}
+		return 1
 	}
 
 	return (
@@ -63,7 +67,9 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 						<div className="lg:w-36">
 							{coreValue.title}
 							<span className="ml-2 cursor-pointer">
-								<Popover content={getPopOverContent(coreValue.description)}>
+								<Popover content={getPopOverContent(coreValue.description)} overlayStyle={{
+									width: "80vw"
+								}}>
 									<InfoCircleOutlined />
 								</Popover>
 							</span>
