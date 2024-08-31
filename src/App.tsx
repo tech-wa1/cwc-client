@@ -36,7 +36,7 @@ function App() {
         },
         {
           id: "assessmentHOC",
-          path: "assessment",
+          path: "assessment/:pid",
           element: <AssessmentHOC />,
           children: [
             {

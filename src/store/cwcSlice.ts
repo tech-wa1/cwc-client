@@ -41,6 +41,10 @@ export const cwcSlice = createSlice({
     reducers: {
         updateSurveyProgress: (state, action: PayloadAction<number>) => {
             state.surveyPercentage = action.payload
+        },
+        updatePid: (state, action: PayloadAction<string>) => {
+            localStorage.setItem("pid", action.payload)
+            state.pid = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -78,6 +82,6 @@ export const cwcSlice = createSlice({
     }
 })
 
-export const { updateSurveyProgress } = cwcSlice.actions
+export const { updateSurveyProgress, updatePid } = cwcSlice.actions
 
 export default cwcSlice.reducer

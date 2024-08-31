@@ -6,32 +6,32 @@ import { RootState } from "../../store/store"
 import getResponsesThunk from "../../thunks/getResponsesThunk"
 import Success from "../Success/Success"
 import getClientValuesThunk from "../../thunks/getClientValuesThunk"
+import { updatePid } from "../../store/cwcSlice"
 
 const AssessmentHOC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
+    const { id, pid } = useParams()
+
     const [loadingSurvey, setLoadingSurvey] = useState(true)
     const isSurveyActive = useAppSelector((root: RootState) => root.cwc.survey_active)
     const tncAccepted = useAppSelector((root: RootState) => root.cwc.tncAccepted)
     const surveyCompleted = useAppSelector((root: RootState) => root.cwc.surveyCompleted)
-    const pid = useAppSelector((root: RootState) => root.cwc.pid) || localStorage.getItem("pid") || ""
+
     const clientId = useAppSelector((root: RootState) => root.cwc.clientId)
 
-    const { id } = useParams()
 
     const getSurveyDetail = async () => {
+        if (!pid) {
+            return
+        }
         const resp = await dispatch(getSurveyThunk({ id: id || "", pid }))
         await dispatch(getResponsesThunk({ survey: id || "", participant: pid }))
         setLoadingSurvey(false)
         if (getSurveyThunk.fulfilled.match(resp)) {
-            // if (resp.payload.participant.tnc_accepted) {
-            //     navigate("1")
-            // } else {
-            navigate("start")
-            // }
+            navigate("./start")
         }
-        // get response
     }
 
     const getClientValues = () => {
@@ -58,10 +58,12 @@ const AssessmentHOC = () => {
 
 
     const checkParticipant = () => {
-        const local_pid = localStorage.getItem("pid")
-        if (!pid || !local_pid) {
+        if (!pid) {
             navigate("../login")
+        } else {
+            dispatch(updatePid(pid))
         }
+
     }
 
     return (
