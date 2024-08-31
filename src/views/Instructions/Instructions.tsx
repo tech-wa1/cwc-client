@@ -8,12 +8,11 @@ import { useState } from "react"
 
 const Instructions = () => {
 
-    const { id } = useParams()
+    const { id, pid } = useParams()
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const tncAccepted = useAppSelector((root: RootState) => root.cwc.tncAccepted)
-    const pid = useAppSelector((root: RootState) => root.cwc.pid)
 
     const [tncLocal, setTncLocal] = useState(tncAccepted)
 
@@ -22,13 +21,16 @@ const Instructions = () => {
     }
 
     const handleStartSurvey = async () => {
+        if (!pid) {
+            return
+        }
         if (!tncLocal) {
             alert("Accept Terms & Conditions to continue.")
             return
         }
         const resp = await dispatch(acceptTnc({ id: id || "", pid: pid || "" }))
         if (acceptTnc.fulfilled.match(resp)) {
-            navigate(`/${id}/assessment/1`)
+            navigate(`/${id}/assessment/${pid}/1`)
         } else {
             alert("T&C check failed...Please contact Admin")
         }

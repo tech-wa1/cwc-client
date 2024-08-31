@@ -33,7 +33,7 @@ const Login = () => {
             setInvalidUser(true)
         } else if (loginParticipant.fulfilled.match(resp)) {
             setInvalidUser(false)
-            navigate("../assessment")
+            navigate(`../assessment/${resp.payload.id}`)
         }
     }
 
