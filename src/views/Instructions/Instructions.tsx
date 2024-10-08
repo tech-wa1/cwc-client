@@ -53,49 +53,38 @@ const Instructions = () => {
                 <div className="py-2 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">About</h3>
                     <p className="py-1 text-justify">
-                        In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: communication, capacity, capability and connection.
+                        In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: <div className="font-bold">communication, capacity, capability and connection.</div>
                     </p>
 
                     <p className="py-1 text-justify">
-                        These elements not only drive employee and team success but also ensure that the business remains aligned with its overarching goals and values.
+                        These elements not only promote the success of employees and teams but also ensure that the business stays aligned with its overarching goals and values.
                     </p>
 
                     <p className="py-1 text-justify">
-                        This Competitive Wellness assesment reports on these essential components, providing insights into how they collectively shape the workplace environment in mastering engagement, productivity and growth.
+                        The Competitive Wellness Assessment evaluates these essential components, providing insights into how they collectively shape the workplace environment. By examining communication, capacity, capability, and connection, the assessment identifies areas of strength and opportunities for improvement, ultimately helping organizations enhance engagement, boost productivity, and drive sustainable growth.
                     </p>
                 </div>
                 <div className="py-3 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">Instructions</h3>
                     <ul className="px-3 tracking-wide">
-                        <li className="py-1 text-justify">This confidential assessment seeks your honest feedback to
-                            drive positive change. Your unique perspectives will provide
-                            valuable insights. There are no right or wrong answers—your
-                            authentic opinion matters most.</li>
-                        <li className="py-1 text-justify">Please read each question carefully. Select the option that best
-                            represents your view.</li>
-                        <li className="py-1 text-justify">Your participation is voluntary, and you can exit or pause the survey at
-                            any time. Use the provided link to return later if needed.</li>
-                        <li className="py-1 text-justify">The survey should take approximately 15 minutes to complete. Please
-                            submit by deadline date.</li>
+                        <li className="py-1 text-justify">This confidential assessment is designed to gather your honest feedback to help drive meaningful improvements. Your unique perspectives are invaluable, and your input will provide us with essential insights. Remember, there are no right or wrong answers—what matters most is your genuine opinion.</li>
+                        <li className="py-1 text-justify">Please read each question thoroughly and choose the option that best reflects your perspective.</li>
+                        <li className="py-1 text-justify">The survey typically takes around 15 minutes to complete. We recommend finishing it in one sitting for the best experience.</li>
                         <li className="py-1 text-justify">Your progress is shown at the top of each page. Use the
                             <Button type="primary" size="small" className="px-5 h-6 mx-2 text-xs">Next</Button>
                             button to move forward and
                             <div className="border border-solid border-slate-300 mx-2 inline-block rounded-lg p-0 ">
                                 <ArrowLeftOutlined className="p-1 px-2 text-sm" />
                             </div>
-                            button to navigate back. Avoid using your browser buttons to navigate.</li>
-                        <li className="py-1 text-justify">Questions marked with the icon <InfoCircleOutlined /> will provide additional
-                            information about the question and its expected outcomes.</li>
-                        <li className="py-1 text-justify">At the end of the survey, click
+                            button to navigate back. Please avoid using your browser's navigation buttons to move through the survey.</li>
+                        <li className="py-1 text-justify">Questions marked with the icon <InfoCircleOutlined /> will offer additional details about the question and its intended outcomes.</li>
+                        <li className="py-1 text-justify">At the end of the survey, please click
                             <Button type="primary" size="small" className="px-5 h-6 mx-2 text-xs">Submit</Button>
-                            to ensure your responses are
-                            recorded.</li>
-                        <li className="py-1 text-justify">Your individual responses will remain confidential and will only be used
-                            in aggregate form.</li>
+                            to ensure your responses are recorded.</li>
+                        <li className="py-1 text-justify">Your individual responses will be kept confidential and will only be utilized in aggregate form.</li>
                         <li className="py-1 text-justify">For technical issues, contact <a href="mailto:support@workingas1.com">support@workingas1.com</a>. For questions
                             about survey content, contact <a href="mailto:team@workingas1.com">team@workingas1.com</a>.</li>
-                        <li className="py-1 text-justify">Remember, your honest feedback is valuable and will contribute
-                            to workplace improvements.</li>
+                        <li className="py-1 text-justify">Please remember that your honest feedback is invaluable and will play a significant role in enhancing the workplace.</li>
                     </ul>
                 </div>
             </div>
