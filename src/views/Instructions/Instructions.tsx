@@ -28,7 +28,7 @@ const Instructions = () => {
             alert("Accept Terms & Conditions to continue.")
             return
         }
-        const resp = await dispatch(acceptTnc({ id: id || "", pid: pid || "" }))
+        const resp = await dispatch(acceptTnc({ pid: pid }))
         if (acceptTnc.fulfilled.match(resp)) {
             navigate(`/${id}/assessment/${pid}/1`)
         } else {
@@ -43,7 +43,9 @@ const Instructions = () => {
                 <div className="py-2 lg:p-5 lg:w-9/12 text-xl font-bold lg:text-3xl lg:flex items-center">Welcome to your company's <div className="text-colorPrimary px-2 inline"> Wellness</div> Check</div>
                 <div className="p-3 lg:w-3/12 hidden lg:block">
                     <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
-                    <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
+                    <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the
+                        <Link to="/tnc" target="_blank">Terms & Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link>
+                    </Checkbox>
                 </div>
             </div>
 
@@ -98,7 +100,7 @@ const Instructions = () => {
                 </div>
             </div>
             <div className="py-3 lg:p-3 lg:hidden">
-                <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link></Checkbox>
+                <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link></Checkbox>
             </div>
             <div className="py-3 w-full lg:hidden">
                 <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>

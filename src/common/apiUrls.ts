@@ -1,8 +1,9 @@
-export const verifySurveyUrl = (id: string) => `/survey/${id}/valid`
-export const loginUrl = "/survey/participants/login"
-export const acceptTncUrl = (id: string, pid: string) => `/survey/${id}/tnc/${pid}`
-export const getSUrveyUrl = (id: string, pid: string) => `/survey/${id}/participant/${pid}`
-export const getResponseUrl = (id: string, pid: string) => `/survey/${id}/response/${pid}`
-export const setResponseUrl = 'survey/response'
-export const completeSurveyUrl = "/survey/complete"
-export const getClientValuesUrl = (id: string) => `/client/${id}/values/`
+export const verifySurveyUrl = '/survey/valid/'
+export const loginUrl = "/survey/participants/login/"
+export const acceptTncUrl = '/survey/accept-tnc/'
+export const getSurveyUrl = (id: string) => `/survey/${id}/`
+export const getResponseUrl = '/survey/responses/'
+export const setValueResponseUrl = '/survey/value-responses/'
+export const setResponseUrl = 'survey/capture-response/'
+export const completeSurveyUrl = "/survey/mark-complete/"
+export const getClientValuesUrl = (id: string) => `/client/${id}/core-values/`

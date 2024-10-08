@@ -63,8 +63,8 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 			)}
 			{coreValues.length > 0 &&
 				coreValues.map((coreValue) => (
-					<div className="flex flex-col lg:flex-row lg:mx-3 my-10 items-center lg:justify-start w-full lg:w-auto" key={`cvi${coreValue.id}`}>
-						<div className="lg:w-36">
+					<div className="flex flex-col lg:mx-3 my-10 items-center justify-center w-full lg:w-auto" key={`cvi${coreValue.id}`}>
+						<div className="font-bold lg:text-xl">
 							{coreValue.title}
 							<span className="ml-2 cursor-pointer">
 								<Popover content={getPopOverContent(coreValue.description)} overlayStyle={{
@@ -75,7 +75,7 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 							</span>
 						</div>
 
-						<div className="lg:ml-16 w-full" key={`ev${getCurrentScoreById(coreValue.id)}`}>
+						<div className="m-5 lg:ml-16" key={`ev${getCurrentScoreById(coreValue.id)}`}>
 							<SliderScale
 								defaultValue={getCurrentScoreById(coreValue.id)}
 								onChange={(answer: number) => handleControlChange(coreValue.id, answer)}
@@ -84,6 +84,7 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 						</div>
 					</div>
 				))}
+
 		</div>
 	);
 };

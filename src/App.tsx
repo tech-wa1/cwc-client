@@ -9,6 +9,7 @@ import Base from './views/Base/Base';
 import Four0Four from './components/four0Four/four0Four';
 import AssessmentHOC from './views/AssessmentHOC/AssessmentHOC';
 import TermsAndConditions from './views/TermsAndConditions/TermsAndConditions';
+import PrivacyPolicy from './views/PrivacyPolicy/PrivacyPolicy';
 
 
 function App() {
@@ -23,6 +24,11 @@ function App() {
       id: "tnc",
       path: "tnc",
       element: <TermsAndConditions />,
+    },
+    {
+      id: "privacyPolicy",
+      path: "privacy-policy",
+      element: <PrivacyPolicy />,
     },
     {
       id: "assessment",

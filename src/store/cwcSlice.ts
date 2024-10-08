@@ -49,7 +49,13 @@ export const cwcSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(verifySurvey.fulfilled, (state, action) => {
-            state.isValidSurvey = action.payload.valid || false
+            state.isValidSurvey = true
+            state.survey_active = !!action.payload.survey_active
+            state.tncAccepted = !!action.payload.tnc_accepted
+            state.surveyCompleted = !!action.payload.survey_complete
+        })
+        builder.addCase(verifySurvey.rejected, (state) => {
+            state.isValidSurvey = false
         })
         builder.addCase(loginParticipant.fulfilled, (state, action) => {
             state.pid = action.payload.id || ""
@@ -65,10 +71,7 @@ export const cwcSlice = createSlice({
             state.questions = action.payload.questions.sort(function (a: IQuestion, b: IQuestion) {
                 return a.id - b.id;
             });
-            state.survey_active = !!action.payload.is_active
-            state.tncAccepted = !!action.payload.participant.tnc_accepted
-            state.surveyCompleted = !!action.payload.participant.survey_complete
-            state.clientId = action.payload.client
+            state.clientId = action.payload.client_id
         })
         builder.addCase(completeSurveyThunk.fulfilled, (state) => {
             state.surveyCompleted = true

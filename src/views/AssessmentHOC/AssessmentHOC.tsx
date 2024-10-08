@@ -26,7 +26,7 @@ const AssessmentHOC = () => {
         if (!pid) {
             return
         }
-        const resp = await dispatch(getSurveyThunk({ id: id || "", pid }))
+        const resp = await dispatch(getSurveyThunk({ id: id || "" }))
         await dispatch(getResponsesThunk({ survey: id || "", participant: pid }))
         setLoadingSurvey(false)
         if (getSurveyThunk.fulfilled.match(resp)) {

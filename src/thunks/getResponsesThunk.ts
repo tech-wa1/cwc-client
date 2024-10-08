@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { get } from "../common/api"
+import { post } from "../common/api"
 import { getResponseUrl } from "../common/apiUrls"
 
 interface IGetResponsesThunk {
@@ -17,7 +17,10 @@ const getResponsesThunk = createAsyncThunk(
     'survey/getresponse',
     // if you type your function argument here
     async (data: IGetResponsesThunk) => {
-        const response = await get(getResponseUrl(data.survey, data.participant))
+        const response = await post(getResponseUrl, {
+            survey_id: data.survey,
+            participant_id: data.participant
+        })
         return response.data
     }
 )

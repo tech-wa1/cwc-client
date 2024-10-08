@@ -9,9 +9,10 @@ import { updateSurveyProgress } from "../../store/cwcSlice"
 import { useEffect, useState } from "react"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
 import setResponsesThunk from "../../thunks/setResponsesThunk"
-import { ICoreValueAnswer, IQuestion } from "../../common/types"
+import { ICoreValueAnswer } from "../../common/types"
 import wa1Logo from './../../assets/wa1_logo.svg';
 import CoreValueScale from "../../components/CoreValueScale/CoreValueScale"
+import setValueResponsesThunk from "../../thunks/setValueResponseThunk"
 
 const defaultOptions = [{
     label: 'No',
@@ -48,6 +49,7 @@ const Assessment = () => {
     const coreValues = useAppSelector((root: RootState) => root.cwc.coreValues);
 
     const [showSubmitModal, setShowSubmitModal] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [answers, setAnswers] = useState<Array<number | ICoreValueAnswer[]>>([])
 
 
@@ -63,28 +65,11 @@ const Assessment = () => {
     useEffect(() => {
         const tempAnswers: number[] = []
         responses && responses.length > 0 && responses.map(res => {
-            tempAnswers.push(res.answer || 1)
+            tempAnswers.push(res.answer)
         })
         setAnswers(tempAnswers)
-    }, [])
-
-    const getQuestionControl = (currentQuestion: IQuestion) => {
-        if (!currentQuestion) {
-            return
-        }
-        if (currentQuestion.question_type === 1) {
-            return <LikertScale value={answers[current_qa_index] as number} options={currentQuestion.response_labels || defaultOptions} onChange={handleControlChange} key={`lsi${currentQuestion.id}`} />
-        } else if (currentQuestion.question_type === 2) {
-            return <SliderScale defaultValue={answers[current_qa_index] as number} onChange={handleControlChange} key={`sci${currentQuestion.id}`} />
-        } else if (currentQuestion.question_type === 3) {
-            return <CoreValueScale currentAnswers={answers[current_qa_index] as ICoreValueAnswer[]} coreValues={coreValues} key={`sci${currentQuestion.id}`} onChange={handleControlChange} />
-        } else {
-            return <div key={`invalid${currentQuestion.id}`} >Invalid control component. Please contact the assessment administrator</div>
-        }
-    }
-
-    const questionControls = questions.map(questionItem => getQuestionControl(questionItem))
-
+        setLoading(false)
+    }, [responses])
 
 
     const moveToNext = () => {
@@ -101,33 +86,34 @@ const Assessment = () => {
         setShowSubmitModal(true)
     }
 
-    const getDefaultValue = (questionType: number) => {
-        if (questionType === 3) {
-            return coreValues.map(value => {
-                return {
-                    value: value.id,
-                    answer: 1
-                }
-            })
-        }
-        return 1
-    }
-
     const handleNext = async (isSubmit: Boolean = false) => {
         if (!current_question_num || !id || !questions[current_qa_index].id) {
             return
         }
-        // if the answer was modified make an API call to update the response
-        const resp = await dispatch(setResponsesThunk({
-            survey: id,
-            participant: pid,
-            question: Number(questions[current_qa_index].id),
-            answer: answers[current_qa_index] || getDefaultValue(questions[current_qa_index].question_type),
-            questionType: questions[current_qa_index].question_type === 3 ? "value_rating_scale" : "rating_scale"
-        }))
-        if (setResponsesThunk.fulfilled.match(resp)) {
-            isSubmit ? handleSubmit() : moveToNext()
+
+        if (questions[current_qa_index].question_type.type === "value_rating_scale") {
+            const resp = await dispatch(setValueResponsesThunk({
+                survey: id,
+                participant: pid,
+                question: Number(questions[current_qa_index].id),
+                answer: answers[current_qa_index],
+            }))
+            if (setValueResponsesThunk.fulfilled.match(resp)) {
+                isSubmit ? handleSubmit() : moveToNext()
+            }
+        } else {
+            const resp = await dispatch(setResponsesThunk({
+                survey: id,
+                participant: pid,
+                question: Number(questions[current_qa_index].id),
+                answer: answers[current_qa_index],
+            }))
+            if (setResponsesThunk.fulfilled.match(resp)) {
+                isSubmit ? handleSubmit() : moveToNext()
+            }
         }
+
+
 
     }
 
@@ -192,11 +178,29 @@ const Assessment = () => {
                                         )
                                     }
                                 </div>
-                                <div className="flex items-center m-auto justify-center w-full">
-                                    {
-                                        questionControls[current_question_num - 1]
-                                    }
-                                </div>
+                                {
+                                    !loading && (
+                                        <div className="flex items-center m-auto justify-center w-full">
+                                            {
+                                                questions[current_question_num - 1].question_type.type === "likert_scale" && (
+                                                    <LikertScale value={answers[current_qa_index] as number} options={questions[current_question_num - 1].response_label_set.response_labels || defaultOptions} onChange={handleControlChange} />
+                                                )
+                                            }
+                                            {
+                                                questions[current_question_num - 1].question_type.type === "rating_scale" && (
+                                                    <SliderScale defaultValue={answers[current_qa_index] as number} onChange={handleControlChange} />
+                                                )
+                                            }
+                                            {
+                                                questions[current_question_num - 1].question_type.type === "value_rating_scale" && (
+                                                    <CoreValueScale currentAnswers={answers[current_qa_index] as ICoreValueAnswer[]} coreValues={coreValues} onChange={handleControlChange} />
+                                                )
+                                            }
+
+                                        </div>
+                                    )
+                                }
+
                                 <div className="flex items-center m-auto justify-center w-full lg:h-20">
                                     {
                                         current_question_num < questions.length ? (

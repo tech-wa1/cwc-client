@@ -8,7 +8,7 @@ import Four0Four from '../../components/four0Four/four0Four';
 const Base = () => {
 
     const dispatch = useAppDispatch()
-    const { id } = useParams()
+    const { id, pid } = useParams()
 
     const [isLoading, setIsLoading] = useState(true)
     const isSurveyValid = useAppSelector((root: RootState) => root.cwc.isValidSurvey)
@@ -19,7 +19,14 @@ const Base = () => {
 
 
     const verifySurveyValidity = async () => {
-        await dispatch(verifySurvey(id || ""))
+        if (!pid || !id) {
+            return
+        }
+
+        await dispatch(verifySurvey({
+            survey_id: id,
+            participant_id: pid
+        }))
         setIsLoading(false)
     }
 

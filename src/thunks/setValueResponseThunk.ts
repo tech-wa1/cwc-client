@@ -1,23 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { post } from "../common/api"
-import { setResponseUrl } from "../common/apiUrls"
+import { setValueResponseUrl } from "../common/apiUrls"
 import { ICoreValueAnswer } from "../common/types"
 
 
-interface ISetResponsesThunk {
+interface ISetValueResponsesThunk {
     survey: string,
     participant: string,
     question: number,
     answer: number | ICoreValueAnswer[],
 }
 
-const setResponsesThunk = createAsyncThunk(
-    'survey/setResponse',
+const setValueResponsesThunk = createAsyncThunk(
+    'survey/setValueResponse',
     // if you type your function argument here
-    async (data: ISetResponsesThunk) => {
-        const response = await post(setResponseUrl, data)
+    async (data: ISetValueResponsesThunk) => {
+        const response = await post(setValueResponseUrl, data)
         return response.data
     }
 )
 
-export default setResponsesThunk
+export default setValueResponsesThunk
