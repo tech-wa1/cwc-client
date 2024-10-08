@@ -1,4 +1,4 @@
-import { ConfigProvider, Button, Segmented } from "antd"
+import { ConfigProvider, Segmented } from "antd"
 
 interface IOption {
     id?: number | string;
@@ -20,7 +20,8 @@ const likertTheme = {
             "trackPadding": 1,
             "controlHeight": 47,
             "controlPaddingHorizontal": 25,
-            "itemHoverColor": "rgb(73, 165, 154)"
+            "itemHoverColor": "rgb(73, 165, 154)",
+            "trackBg": "#F0F0F0"
         }
     }
 }
@@ -38,10 +39,6 @@ const LikertScale = (props: ILikertScale) => {
         }
     })
 
-    const onChange = (selectedOption: IOption) => {
-        props.onChange(Number(selectedOption.value))
-    }
-
     const onSegmentChange = (selectedOption: number | string) => {
         props.onChange(Number(selectedOption))
     }
@@ -49,12 +46,10 @@ const LikertScale = (props: ILikertScale) => {
     return (
         <ConfigProvider theme={likertTheme}>
             <div className="gradient-control hidden lg:block" key={`lksd${props.value || 0}`}>
-                <Segmented defaultValue={props.value} options={options} block onChange={onSegmentChange} />
+                <Segmented defaultValue={props.value || 1} options={options} block onChange={onSegmentChange} />
             </div>
             <div className="gradient-control flex flex-col gap-3 justify-center items-center lg:hidden my-6">
-                {options.map((option, index) => (
-                    <Button className="w-60 h-12" type="default" onClick={() => onChange(option)} key={index}>{option.label}</Button>
-                ))}
+                <Segmented vertical defaultValue={props.value || 1} options={options} block onChange={onSegmentChange} />
             </div>
         </ConfigProvider>
     )

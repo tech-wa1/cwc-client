@@ -69,7 +69,7 @@ export const cwcSlice = createSlice({
         })
         builder.addCase(getSurveyThunk.fulfilled, (state, action) => {
             state.questions = action.payload.questions.sort(function (a: IQuestion, b: IQuestion) {
-                return a.id - b.id;
+                return a.q_index - b.q_index;
             });
             state.clientId = action.payload.client_id
         })

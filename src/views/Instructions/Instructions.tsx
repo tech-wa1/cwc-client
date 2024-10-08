@@ -44,7 +44,7 @@ const Instructions = () => {
                 <div className="p-3 lg:w-3/12 hidden lg:block">
                     <Button className="w-full h-12" type="primary" size="large" disabled={!tncLocal} onClick={handleStartSurvey}>Start Survey</Button>
                     <Checkbox defaultChecked={tncLocal} className="lg:text-xs py-2 text-left" onChange={handleTermsChange}>I have read and agreed to the
-                        <Link to="/tnc" target="_blank">Terms & Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link>
+                        <Link to="/tnc" target="_blank"> Terms & Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link>
                     </Checkbox>
                 </div>
             </div>

@@ -61,15 +61,18 @@ const Assessment = () => {
     }
 
 
-
     useEffect(() => {
-        const tempAnswers: number[] = []
-        responses && responses.length > 0 && responses.map(res => {
-            tempAnswers.push(res.answer)
-        })
+
+        const tempAnswers: Array<number | ICoreValueAnswer[]> = []
+        if (responses && responses.length > 0) {
+            responses && responses.length > 0 && responses.map(res => {
+                tempAnswers.push(res.answer)
+            })
+        }
+
         setAnswers(tempAnswers)
         setLoading(false)
-    }, [responses])
+    }, [responses, questions])
 
 
     const moveToNext = () => {
@@ -86,6 +89,15 @@ const Assessment = () => {
         setShowSubmitModal(true)
     }
 
+    const getDefaultValue = () => {
+        return coreValues.map(cv => {
+            return {
+                value: cv.id,
+                answer: 1
+            }
+        })
+    }
+
     const handleNext = async (isSubmit: Boolean = false) => {
         if (!current_question_num || !id || !questions[current_qa_index].id) {
             return
@@ -96,7 +108,7 @@ const Assessment = () => {
                 survey: id,
                 participant: pid,
                 question: Number(questions[current_qa_index].id),
-                answer: answers[current_qa_index],
+                answer: answers[current_qa_index] === undefined ? getDefaultValue() : answers[current_qa_index],
             }))
             if (setValueResponsesThunk.fulfilled.match(resp)) {
                 isSubmit ? handleSubmit() : moveToNext()
@@ -106,7 +118,7 @@ const Assessment = () => {
                 survey: id,
                 participant: pid,
                 question: Number(questions[current_qa_index].id),
-                answer: answers[current_qa_index],
+                answer: answers[current_qa_index] === undefined ? 1 : answers[current_qa_index],
             }))
             if (setResponsesThunk.fulfilled.match(resp)) {
                 isSubmit ? handleSubmit() : moveToNext()
@@ -143,6 +155,14 @@ const Assessment = () => {
         }
     }
 
+    const sortedResponseLabels = () => {
+        const resp_labls = [...questions[current_question_num - 1].response_label_set.response_labels || defaultOptions]
+        if (resp_labls.length > 0) {
+            return resp_labls.sort((a, b) => a.value - b.value)
+        }
+        return resp_labls
+    }
+
 
     return (
         <section>
@@ -164,26 +184,27 @@ const Assessment = () => {
                         <div className="flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
 
                             <div className="min-w-[90%] min-h-96 lg:min-w-[900px] flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
-                                <div className="flex items-center m-auto justify-center lg:w-10/12 lg:h-20">
+                                <div className="flex items-center m-auto justify-center lg:w-10/12 h-20">
                                     <div className="text-base lg:text-xl font-bold text-center">
                                         {questions[current_question_num - 1].question}
+                                        {
+                                            questions[current_question_num - 1].description && (
+                                                <Popover content={questions[current_question_num - 1].description}>
+                                                    <span className="ml-2 cursor-pointer">
+                                                        <InfoCircleOutlined />
+                                                    </span>
+                                                </Popover>
+                                            )
+                                        }
                                     </div>
-                                    {
-                                        questions[current_question_num - 1].description && (
-                                            <Popover content={questions[current_question_num - 1].description}>
-                                                <div className="ml-2 cursor-pointer">
-                                                    <InfoCircleOutlined />
-                                                </div>
-                                            </Popover>
-                                        )
-                                    }
+
                                 </div>
                                 {
                                     !loading && (
                                         <div className="flex items-center m-auto justify-center w-full">
                                             {
                                                 questions[current_question_num - 1].question_type.type === "likert_scale" && (
-                                                    <LikertScale value={answers[current_qa_index] as number} options={questions[current_question_num - 1].response_label_set.response_labels || defaultOptions} onChange={handleControlChange} />
+                                                    <LikertScale value={answers[current_qa_index] as number} options={sortedResponseLabels()} onChange={handleControlChange} />
                                                 )
                                             }
                                             {

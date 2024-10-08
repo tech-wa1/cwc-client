@@ -4,6 +4,7 @@ export interface IQuestion {
     description?: string;
     question_type: IQuestionType;
     response_label_set: IResponseLabelSet;
+    q_index: number;
 }
 
 export interface IResponseLabelSet {
