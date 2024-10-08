@@ -53,7 +53,7 @@ const Instructions = () => {
                 <div className="py-2 lg:w-5/12">
                     <h3 className="text-colorPrimary lg:text-2xl">About</h3>
                     <p className="py-1 text-justify">
-                        In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: <div className="font-bold">communication, capacity, capability and connection.</div>
+                        In the modern workplace, fostering a high functioning business hinge on several critical business performance drivers: <em>communication, capacity, capability and connection.</em>
                     </p>
 
                     <p className="py-1 text-justify">

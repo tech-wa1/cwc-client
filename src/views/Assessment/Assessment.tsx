@@ -9,7 +9,7 @@ import { updateSurveyProgress } from "../../store/cwcSlice"
 import { useEffect, useState } from "react"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
 import setResponsesThunk from "../../thunks/setResponsesThunk"
-import { ICoreValueAnswer } from "../../common/types"
+import { ICoreValueAnswer, IQuestion, IResponse } from "../../common/types"
 import wa1Logo from './../../assets/wa1_logo.svg';
 import CoreValueScale from "../../components/CoreValueScale/CoreValueScale"
 import setValueResponsesThunk from "../../thunks/setValueResponseThunk"
@@ -61,16 +61,27 @@ const Assessment = () => {
     }
 
 
-    useEffect(() => {
+    const getSortedAnswersByQuestionIndex = (questions: IQuestion[], responses: IResponse[]): number[] => {
+        const questionMap: { [key: number]: number } = {};
 
-        const tempAnswers: Array<number | ICoreValueAnswer[]> = []
-        if (responses && responses.length > 0) {
-            responses && responses.length > 0 && responses.map(res => {
-                tempAnswers.push(res.answer)
+        [...questions].forEach(q => {
+            questionMap[q.id] = q.q_index;
+        });
+
+        return [...responses]
+            .sort((a, b) => {
+                const qIndexA = questionMap[a.question];
+                const qIndexB = questionMap[b.question];
+                return qIndexA - qIndexB;
             })
-        }
+            .map(response => response.answer);
+    }
 
-        setAnswers(tempAnswers)
+    useEffect(() => {
+        if (questions.length > 0 && responses.length > 0) {
+            const tempAnswers: Array<number | ICoreValueAnswer[]> = getSortedAnswersByQuestionIndex(questions, responses)
+            setAnswers(tempAnswers)
+        }
         setLoading(false)
     }, [responses, questions])
 
