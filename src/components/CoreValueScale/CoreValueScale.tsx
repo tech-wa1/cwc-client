@@ -75,7 +75,7 @@ const CoreValueScale = ({ coreValues, currentAnswers, onChange }: ICoreValueScal
 							</span>
 						</div>
 
-						<div className="m-5 lg:ml-16" key={`ev${getCurrentScoreById(coreValue.id)}`}>
+						<div className="m-5 lg:ml-16 w-full" key={`ev${getCurrentScoreById(coreValue.id)}`}>
 							<SliderScale
 								defaultValue={getCurrentScoreById(coreValue.id)}
 								onChange={(answer: number) => handleControlChange(coreValue.id, answer)}
