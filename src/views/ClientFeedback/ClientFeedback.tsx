@@ -64,14 +64,13 @@ const ClientFeedback: React.FC = () => {
                         />
                         <div className='mb-2 text-xs text-slate-500 flex items-start justify-start'>
                             <InfoCircleFilled className='m-2' />
-                            <div className='my-1 w-11/12'>Share any suggestions or recommendations for changes that you believe could benefit the company. Think about new ideas or approaches that could improve the way things are done.</div>
+                            <div className='my-1 w-11/12'>Share any new ideas or recommendations for changes that could benefit the company. Consider fresh approaches or innovations that might improve the current processes or strategies.</div>
                         </div>
                     </div>
                     <div>
                         <div className='mt-10 text-sm font-bold mb-1'>
                             Improvement:
                         </div>
-
                         <textarea
                             className='w-11/12 rounded-lg shadow-sm p-2 h-28 border-slate-300'
                             value={improvement}
@@ -81,8 +80,7 @@ const ClientFeedback: React.FC = () => {
                         />
                         <div className='mb-2 text-xs text-slate-500 flex items-start justify-start'>
                             <InfoCircleFilled className='m-2' />
-                            <div className='my-1 w-11/12'>Provide feedback or recommendations for improvements that the company could make. Focus on aspects that could be enhanced to boost overall efficiency, productivity and/or  team satisfaction.</div>
-
+                            <div className='my-1 w-11/12'>Provide feedback or ideas for enhancing existing processes or practices within the company. Focus on areas where fine-tuning could increase efficiency, productivity, or overall satisfaction.</div>
                         </div>
                     </div>
                     <div>
@@ -98,8 +96,7 @@ const ClientFeedback: React.FC = () => {
                         />
                         <div className='mb-2 text-xs text-slate-500 flex items-start justify-start'>
                             <InfoCircleFilled className='m-2' />
-                            <div className='my-1 w-11/12'>Share your thoughts about this assessment, including what you liked or what could be improved. Your feedback helps us refine the assessment experience for you and others.</div>
-
+                            <div className='my-1 w-11/12'>Share your thoughts about this assessment, including what you liked or areas that could be improved. Your feedback helps us refine the assessment experience for you and others.</div>
                         </div>
                     </div>
                     <div className='flex items-center justify-center'>
