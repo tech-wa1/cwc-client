@@ -17,6 +17,9 @@ export default {
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
+      },
+      backgroundImage: {
+        'feedback': "url('bg.jgp')",
       }
     },
   },

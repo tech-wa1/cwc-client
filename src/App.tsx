@@ -10,6 +10,7 @@ import Four0Four from './components/four0Four/four0Four';
 import AssessmentHOC from './views/AssessmentHOC/AssessmentHOC';
 import TermsAndConditions from './views/TermsAndConditions/TermsAndConditions';
 import PrivacyPolicy from './views/PrivacyPolicy/PrivacyPolicy';
+import ClientFeedback from './views/ClientFeedback/ClientFeedback';
 
 
 function App() {
@@ -29,6 +30,11 @@ function App() {
       id: "privacyPolicy",
       path: "privacy-policy",
       element: <PrivacyPolicy />,
+    },
+    {
+      id: "feedback",
+      path: "feedback",
+      element: <ClientFeedback />,
     },
     {
       id: "assessment",

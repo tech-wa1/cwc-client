@@ -111,8 +111,8 @@ const PrivacyPolicy = () => {
             <h2>12. Contact Us</h2>
             <p>
                 If you have any questions or concerns about this Privacy Policy, the practices of this service, or
-                your dealings with the Competitive Wellness Assessment service, please contact us at:
-                <strong>Email:</strong> team@workingas1.com
+                your dealings with the Competitive Wellness Assessment service, please contact us at
+                <span> <a href="mailto:team@workingas1.com">team@workingas1.com</a></span>
             </p>
         </div>
     );
