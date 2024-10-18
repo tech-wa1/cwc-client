@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { db } from './../../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { Button } from 'antd';
-import { InfoCircleFilled } from '@ant-design/icons';
+import { BellOutlined, InfoCircleFilled } from '@ant-design/icons';
 import wa1Logo from './../../assets/wa1_logo.svg';
 
 const ClientFeedback: React.FC = () => {
@@ -49,6 +49,12 @@ const ClientFeedback: React.FC = () => {
                     <div className='font-thin'>We’d Love to Hear from You!</div>
                 </div>
 
+                <div className='flex items-center justify-center m-3 text-xs'>
+                    <div className='text-lg mx-2 text-orange-600'><BellOutlined className='text-orange-600' /></div>
+                    <div className='text-orange-600'>
+                        Only your responses are recorded. Rest assured that your identity will remain completely private.
+                    </div>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <div className='mt-10 text-sm font-bold mb-1'>
