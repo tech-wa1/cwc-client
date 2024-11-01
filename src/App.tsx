@@ -1,6 +1,4 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Login from './views/Login/Login';
-import Instructions from './views/Instructions/Instructions';
 import Assessment from './views/Assessment/Assessment';
 import Success from './views/Success/Success';
 import { Provider } from 'react-redux';
@@ -10,7 +8,8 @@ import Four0Four from './components/four0Four/four0Four';
 import AssessmentHOC from './views/AssessmentHOC/AssessmentHOC';
 import TermsAndConditions from './views/TermsAndConditions/TermsAndConditions';
 import PrivacyPolicy from './views/PrivacyPolicy/PrivacyPolicy';
-import ClientFeedback from './views/ClientFeedback/ClientFeedback';
+import Landing from './views/Landing/Landing';
+import Instructions from './views/Instructions/Instructions';
 
 
 function App() {
@@ -32,20 +31,10 @@ function App() {
       element: <PrivacyPolicy />,
     },
     {
-      id: "feedback",
-      path: "feedback",
-      element: <ClientFeedback />,
-    },
-    {
       id: "assessment",
       path: ":id",
       element: <Base />,
       children: [
-        {
-          id: "login",
-          path: "login",
-          element: <Login />,
-        },
         {
           id: "assessmentHOC",
           path: "assessment/:pid",
@@ -64,6 +53,11 @@ function App() {
             {
               id: "start",
               path: "start",
+              element: <Landing />,
+            },
+            {
+              id: "instructions",
+              path: "instructions",
               element: <Instructions />,
             },
           ]

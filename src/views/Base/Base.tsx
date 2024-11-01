@@ -4,6 +4,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import verifySurvey from '../../thunks/verifyThunk';
 import { RootState } from '../../store/store';
 import Four0Four from '../../components/four0Four/four0Four';
+import Header from '../../components/Header/Header';
 
 const Base = () => {
 
@@ -38,7 +39,12 @@ const Base = () => {
 
             {
                 !isLoading && isSurveyValid && (
-                    <Outlet />
+                    <>
+                        <Header></Header>
+                        <div className='px-20'>
+                            <Outlet />
+                        </div>
+                    </>
                 )
             }
 

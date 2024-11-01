@@ -27,13 +27,15 @@ export interface IResponseLabel {
     id: number;
     label: string;
     value: number;
+    icon_url: string;
 }
 
 export interface IResponse {
     question: number;
     survey: string;
     participant: string;
-    answer: number;
+    answer?: number | null;
+    answer_text?: string
 }
 
 export interface ICoreValue {

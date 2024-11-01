@@ -11,10 +11,10 @@ const sliderTheme = {
         "Slider": {
             "controlSize": 10,
             "handleSize": 20,
-            "railSize": 6,
+            "railSize": 20,
             "handleColor": "rgb(73, 165, 154)",
             "trackBg": "rgb(73, 165, 154)",
-            "dotSize": 1
+            "dotSize": 5
         }
     }
 }

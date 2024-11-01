@@ -8,6 +8,7 @@ import { IQuestion, IResponse, ICoreValue } from '../common/types'
 import completeSurveyThunk from '../thunks/completeSurveyThunk'
 import getResponsesThunk from '../thunks/getResponsesThunk'
 import getClientValuesThunk from '../thunks/getClientValuesThunk'
+import { setResponsesThunk, setTextFieldResponsesThunk, setValueResponsesThunk } from '../thunks/setResponsesThunk'
 
 export interface CwcState {
     isValidSurvey: boolean,
@@ -45,6 +46,9 @@ export const cwcSlice = createSlice({
         updatePid: (state, action: PayloadAction<string>) => {
             localStorage.setItem("pid", action.payload)
             state.pid = action.payload
+        },
+        updateResponses: (state, action: PayloadAction<Array<IResponse>>) => {
+            state.responses = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -85,6 +89,6 @@ export const cwcSlice = createSlice({
     }
 })
 
-export const { updateSurveyProgress, updatePid } = cwcSlice.actions
+export const { updateSurveyProgress, updatePid, updateResponses } = cwcSlice.actions
 
 export default cwcSlice.reducer

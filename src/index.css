@@ -22,3 +22,8 @@
 .ant-slider-mark {
     pointer-events: none;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+}

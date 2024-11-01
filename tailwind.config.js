@@ -8,9 +8,10 @@ export default {
     extend: {
       colors: {
         "colorPrimary": "#49A59A",
+        "colorSecondary": "#34475D",
         "colorInfo": "#49A59A",
         "colorSuccess": "#6B7AFE",
-        "colorText": "#34475D",
+        "colorText": "#555555",
         "colorBg": "#FFFFFF",
         "colorBg2": "#F5F5F5",
         "errorText": "#E23636"

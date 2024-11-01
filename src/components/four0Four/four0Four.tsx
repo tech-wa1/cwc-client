@@ -1,10 +1,9 @@
 
 const Four0Four = () => {
     return (
-        <>
-            <div className="text-9xl w-full flex items-center justify-center text-colorText">404</div>
-            <div className="w-full flex items-center justify-center text-3xl font-bold text-colorText">The page you are looking for is not available!!</div>
-        </>
+        <div className="fixed top-0 left-0 w-full p-0 m-0">
+            <img className="w-[100vw] h-full" src="https://res.cloudinary.com/dp4d62agv/image/upload/v1730308563/404-wa1_ftya3i.jpg" alt="404 page not found" />
+        </div>
 
     )
 }

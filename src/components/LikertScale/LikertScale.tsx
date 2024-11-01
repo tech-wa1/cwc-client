@@ -1,9 +1,12 @@
-import { ConfigProvider, Segmented } from "antd"
+import { CheckCircleOutlined } from "@ant-design/icons";
+import "./likertScale.css";
+import { useEffect, useState } from "react";
 
 interface IOption {
     id?: number | string;
     label: JSX.Element | string;
-    value: string | number;
+    value: number;
+    icon_url?: string;
 }
 
 interface ILikertScale {
@@ -12,46 +15,49 @@ interface ILikertScale {
     value: number
 }
 
-const likertTheme = {
-    "components": {
-        "Segmented": {
-            "itemSelectedBg": "rgb(73, 165, 154)",
-            "itemSelectedColor": "rgb(255, 255, 255)",
-            "trackPadding": 1,
-            "controlHeight": 47,
-            "controlPaddingHorizontal": 25,
-            "itemHoverColor": "rgb(73, 165, 154)",
-            "trackBg": "#F0F0F0"
-        }
-    }
-}
-
 const LikertScale = (props: ILikertScale) => {
 
-    const options = props.options.map(opt => {
-        return {
-            label: (
-                <div className="lg:w-32 p-3 h-5 lg:h-8 flex items-center justify-center text-base font-bold ">
-                    <div>{opt.label}</div>
-                </div>
-            ),
-            value: opt.value,
-        }
-    })
+    const [activeOption, setActiveOption] = useState<number>()
 
-    const onSegmentChange = (selectedOption: number | string) => {
-        props.onChange(Number(selectedOption))
+    const handleOptionSelect = (option: IOption) => {
+        setActiveOption(option.value)
+        props.onChange(option.value)
     }
 
+    useEffect(() => {
+        setActiveOption(props.value)
+    }, [props.value])
+
     return (
-        <ConfigProvider theme={likertTheme}>
-            <div className="gradient-control hidden lg:block" key={`lksd${props.value || 0}`}>
-                <Segmented defaultValue={props.value || 1} options={options} block onChange={onSegmentChange} />
-            </div>
-            <div className="gradient-control flex flex-col gap-3 justify-center items-center lg:hidden my-6">
-                <Segmented vertical defaultValue={props.value || 1} options={options} block onChange={onSegmentChange} />
-            </div>
-        </ConfigProvider>
+        <div className="flex items-center justify-start">
+            {props.options.map((option, index) => (
+                <div key={option.id} className="mr-3">
+                    <div
+                        className={`relative h-48 w-40 border border-solid border-slate-200 rounded-2xl  p-2 shadow-xl hover:bg-colorSecondary cursor-pointer text-colorText hover:text-white ${option.value === activeOption ? 'active' : ''}`}
+                        onClick={() => handleOptionSelect(option)}
+                        tabIndex={index}
+                        onKeyUp={event => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                                handleOptionSelect(option)
+                            }
+                        }}
+                    >
+                        {
+                            option.value === activeOption && (
+                                <CheckCircleOutlined className="text-colorPrimary text-2xl absolute top-2 right-2" />
+                            )
+                        }
+                        <div className="flex items-center justify-center w-20 p-5 py-7 m-auto">
+                            <img className="w-full" src={option.icon_url} alt="option image" />
+                        </div>
+                        <div className='text-3xl text-center font-thin' >
+                            {option.label}
+                        </div>
+                    </div>
+                </div>
+            ))
+            }
+        </div >
     )
 }
 

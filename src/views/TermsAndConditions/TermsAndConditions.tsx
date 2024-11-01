@@ -1,6 +1,6 @@
 const TermsAndConditions = () => {
     return (
-        <div className="font-roboto w-8/12 m-auto p-12 text-sm">
+        <div className="font-roboto w-8/12 m-auto p-12 text-sm text-colorText">
             <h1 className="p-0 m-0">Terms and Conditions</h1>
             <div className="text-xl font-bold py-3"> WorkingAs1 Competitive <span className="text-colorPrimary">Wellness</span> Assessment</div>
 

@@ -1,103 +1,82 @@
-import { ArrowLeftOutlined, InfoCircleOutlined } from "@ant-design/icons"
-import { Button, Modal, Popover, Progress } from "antd"
-import LikertScale from "../../components/LikertScale/LikertScale"
-import SliderScale from "../../components/SliderScale/SliderScale"
-import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import ProgressBar from "../../components/ProgressBar/ProgressBar"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import { RootState } from "../../store/store"
-import { updateSurveyProgress } from "../../store/cwcSlice"
-import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { IQuestion, IResponse } from "../../common/types"
+import TextField from "../../components/TextField/TextField"
+import { Button, Modal } from "antd"
+// import setValueResponsesThunk from "../../thunks/setValueResponseThunk"
+import { updateResponses, updateSurveyProgress } from "../../store/cwcSlice"
+import { setResponsesThunk, setTextFieldResponsesThunk } from "../../thunks/setResponsesThunk"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
-import setResponsesThunk from "../../thunks/setResponsesThunk"
-import { ICoreValueAnswer, IQuestion, IResponse } from "../../common/types"
-import wa1Logo from './../../assets/wa1_logo.svg';
-import CoreValueScale from "../../components/CoreValueScale/CoreValueScale"
-import setValueResponsesThunk from "../../thunks/setValueResponseThunk"
+import SliderScale from "../../components/SliderScale/SliderScale"
+import LikertScale from "../../components/LikertScale/LikertScale"
+
 
 const defaultOptions = [{
     label: 'No',
-    value: 'no'
+    value: 0
 },
 {
     label: 'Probably',
-    value: 'probably'
+    value: 1
 },
 {
     label: 'Likely',
-    value: 'likely'
+    value: 2
 }]
-
-
-
 
 const Assessment = () => {
 
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const { qindex } = useParams()
-    const { id } = useParams()
+    const navigate = useNavigate()
 
-    let current_question_num: number = 1 //defaults to first question
-    if (qindex) {
-        current_question_num = parseInt(qindex)
-    }
-    const current_qa_index: number = current_question_num - 1 //defaults to first question
-    const surveyPercent = useAppSelector((root: RootState) => root.cwc.surveyPercentage)
+    const q_index = parseInt(useParams()?.qindex || "0");
+    const { id } = useParams()
+    // const currentQuestionIndex = q_index - 1;
+
     const questions = useAppSelector((root: RootState) => root.cwc.questions)
     const responses = useAppSelector((root: RootState) => root.cwc.responses)
     const pid = useAppSelector((root: RootState) => root.cwc.pid)
-    const coreValues = useAppSelector((root: RootState) => root.cwc.coreValues);
+    const coreValues = useAppSelector((root: RootState) => root.cwc.coreValues)
 
     const [showSubmitModal, setShowSubmitModal] = useState(false)
-    const [loading, setLoading] = useState(true)
-    const [answers, setAnswers] = useState<Array<number | ICoreValueAnswer[]>>([])
-
-
-
-    const handleControlChange = (answer: number | ICoreValueAnswer[]) => {
-        const answersCopy = [...answers]
-        answersCopy[current_qa_index] = answer
-        setAnswers(answersCopy)
-    }
-
-
-    const getSortedAnswersByQuestionIndex = (questions: IQuestion[], responses: IResponse[]): number[] => {
-        const questionMap: { [key: number]: number } = {};
-
-        [...questions].forEach(q => {
-            questionMap[q.id] = q.q_index;
-        });
-
-        return [...responses]
-            .sort((a, b) => {
-                const qIndexA = questionMap[a.question];
-                const qIndexB = questionMap[b.question];
-                return qIndexA - qIndexB;
-            })
-            .map(response => response.answer);
-    }
+    const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(null)
+    const [currentQuestionResponse, setCurrentQuestionResponse] = useState<IResponse | null>(null)
+    const [currentTextAnswer, setCurrentTextAnswer] = useState<string>("")
+    const [currentNumberAnswer, setCurrentNumberAnswer] = useState<number>(0)
 
     useEffect(() => {
-        if (questions.length > 0 && responses.length > 0) {
-            const tempAnswers: Array<number | ICoreValueAnswer[]> = getSortedAnswersByQuestionIndex(questions, responses)
-            setAnswers(tempAnswers)
+        let question: IQuestion | null = null
+        if (questions.length > 0) {
+            question = questions.filter((q) => q.q_index === q_index)[0]
         }
-        setLoading(false)
-    }, [responses, questions])
-
-
-    const moveToNext = () => {
-        if (questions.length > current_question_num) {
-            navigate(`../${current_question_num + 1}`)
-            dispatch(updateSurveyProgress((current_question_num + 1) * (100 / questions.length)))
-        } else if (questions.length === current_question_num) {
-            navigate('../thankyou')
+        if (!question) {
+            return
         }
+        setCurrentQuestion({ ...question })
+        if (responses.length > 0) {
+            const currentResponse = responses.filter((res) => res.question === question?.id)
+            if (!currentResponse || currentResponse.length <= 0) {
+                return
+            }
+            setCurrentQuestionResponse({ ...currentResponse[0] })
+            if (question?.question_type.type === "text_field") {
+                setCurrentTextAnswer(currentResponse[0].answer_text || "")
+            } else {
+                setCurrentNumberAnswer(currentResponse[0].answer || 1)
+            }
+        }
+    }, [q_index])
 
+
+    const handleTextFieldControlChange = (val: string) => {
+        setCurrentTextAnswer(val)
     }
 
-    const handleSubmit = () => {
-        setShowSubmitModal(true)
+    const handleNumberFieldControlChange = (val: number) => {
+        setCurrentNumberAnswer(val)
     }
 
     const getDefaultValue = () => {
@@ -109,42 +88,102 @@ const Assessment = () => {
         })
     }
 
-    const handleNext = async (isSubmit: Boolean = false) => {
-        if (!current_question_num || !id || !questions[current_qa_index].id) {
-            return
+    const handleSubmit = () => {
+        setShowSubmitModal(true)
+    }
+
+    const moveToNext = () => {
+        if (questions.length > q_index) {
+            navigate(`../${q_index + 1}`)
+            dispatch(updateSurveyProgress((q_index + 1) * (100 / questions.length)))
+        } else if (questions.length === q_index) {
+            navigate('../thankyou')
         }
-
-        if (questions[current_qa_index].question_type.type === "value_rating_scale") {
-            const resp = await dispatch(setValueResponsesThunk({
-                survey: id,
-                participant: pid,
-                question: Number(questions[current_qa_index].id),
-                answer: answers[current_qa_index] === undefined ? getDefaultValue() : answers[current_qa_index],
-            }))
-            if (setValueResponsesThunk.fulfilled.match(resp)) {
-                isSubmit ? handleSubmit() : moveToNext()
-            }
-        } else {
-            const resp = await dispatch(setResponsesThunk({
-                survey: id,
-                participant: pid,
-                question: Number(questions[current_qa_index].id),
-                answer: answers[current_qa_index] === undefined ? 1 : answers[current_qa_index],
-            }))
-            if (setResponsesThunk.fulfilled.match(resp)) {
-                isSubmit ? handleSubmit() : moveToNext()
-            }
-        }
-
-
 
     }
 
-    const goBack = () => {
-        if (!current_question_num || current_question_num <= 1) {
+    const updateValueInStore = (data: IResponse, q_type: string) => {
+        const responsesCopy = responses.map(resp => {
+            if (resp.question === data.question) {
+                if (q_type === "text_field") {
+                    const respCopy = { ...resp }
+                    respCopy.answer_text = data.answer_text
+                    return respCopy
+                } else {
+                    const respCopy = { ...resp }
+                    respCopy.answer = data.answer
+                    return respCopy
+                }
+
+            }
+            return resp
+        })
+
+        dispatch(updateResponses([...responsesCopy]))
+    }
+
+    const handleNext = async (isSubmit: Boolean = false) => {
+        if (!currentQuestion || !id) {
             return
         }
-        navigate(`../${current_question_num - 1}`)
+
+        if (currentQuestion.question_type.type === "text_field") {
+            const data = {
+                survey: id,
+                participant: pid,
+                question: Number(currentQuestion.id),
+                answer_text: currentTextAnswer,
+                answer: null
+            }
+            const resp = await dispatch(setTextFieldResponsesThunk(data))
+            if (setTextFieldResponsesThunk.fulfilled.match(resp)) {
+                updateValueInStore(data, currentQuestion.question_type.type)
+                isSubmit ? handleSubmit() : moveToNext()
+            }
+        } else {
+            const data = {
+                survey: id,
+                participant: pid,
+                question: Number(currentQuestion.id),
+                answer: currentNumberAnswer,
+            }
+            const resp = await dispatch(setResponsesThunk(data))
+            if (setResponsesThunk.fulfilled.match(resp)) {
+                updateValueInStore(data, currentQuestion.question_type.type)
+                isSubmit ? handleSubmit() : moveToNext()
+            }
+        }
+
+        //     if (currentQuestion.question_type.type === "value_rating_scale") {
+        //         const resp = await dispatch(setValueResponsesThunk({
+        //             survey: id,
+        //             participant: pid,
+        //             question: Number(currentQuestion.id),
+        //             answer: currentAnswer,
+        //         }))
+        //         if (setValueResponsesThunk.fulfilled.match(resp)) {
+        //             isSubmit ? handleSubmit() : moveToNext()
+        //         }
+        //     } else  else {
+        //         const resp = await dispatch(setResponsesThunk({
+        //             survey: id,
+        //             participant: pid,
+        //             question: Number(currentQuestion.id),
+        //             answer: currentQuestionResponse === undefined ? 1 : currentQuestionResponse,
+        //         }))
+        //         if (setResponsesThunk.fulfilled.match(resp)) {
+        //             isSubmit ? handleSubmit() : moveToNext()
+        //         }
+        //     }
+    }
+
+
+
+    const goBack = () => {
+        if (q_index <= 1) {
+            return
+        }
+        navigate(`../${q_index - 1}`)
     }
 
     const handleCancel = () => {
@@ -167,90 +206,42 @@ const Assessment = () => {
     }
 
     const sortedResponseLabels = () => {
-        const resp_labls = [...questions[current_question_num - 1].response_label_set.response_labels || defaultOptions]
+        const resp_labls = currentQuestion ? [...currentQuestion.response_label_set.response_labels] : defaultOptions
         if (resp_labls.length > 0) {
-            return resp_labls.sort((a, b) => a.value - b.value)
+            return resp_labls.sort((a, b) => (a.value as number) - (b.value as number))
         }
         return resp_labls
     }
 
 
     return (
-        <section>
-            {current_question_num && current_question_num > 0 && current_question_num <= questions.length && (
-                <>
-                    <div className="ptop-progress">
-                        <Progress percent={surveyPercent} showInfo={false} className="fixed top-0 left-0" />
-                    </div>
-                    <section className="m-3 font-roboto">
-                        <div className="py-2 h-20">
-                            {
-                                current_question_num > 1 && (
-                                    <Button type="text" className="p-3" onClick={goBack}>
-                                        <ArrowLeftOutlined className="text-lg" />
-                                    </Button>
-                                )
-                            }
+        <section className="font-roboto text-colorText">
+            <ProgressBar />
+            <section className="question-box py-10">
+                <div className="font-light text-4xl lg:w-[900px]">{currentQuestion?.question}</div>
+                <div className="font-bold text-lg lg:w-[900px] my-5">{currentQuestion?.description}</div>
+                <div>
+                    {currentQuestion?.question_type.type === 'text_field' && (
+                        <div>
+                            <TextField placeholder={currentQuestion.description || ""} onChange={handleTextFieldControlChange} defaultValue={currentQuestionResponse?.answer_text || ""} rows={12} />
                         </div>
-                        <div className="flex items-center justify-center text-colorText" key={`qc${current_question_num}`}>
-
-                            <div className="min-w-[90%] min-h-96 lg:min-w-[900px] flex flex-col justify-center items-center p-8 border border-solid border-slate-200 rounded-2xl bg-gray-300 bg-opacity-10">
-                                <div className="flex items-center m-auto justify-center lg:w-10/12 h-20">
-                                    <div className="text-base lg:text-xl font-bold text-center">
-                                        {questions[current_question_num - 1].question}
-                                        {
-                                            questions[current_question_num - 1].description && (
-                                                <Popover content={questions[current_question_num - 1].description}>
-                                                    <span className="ml-2 cursor-pointer">
-                                                        <InfoCircleOutlined />
-                                                    </span>
-                                                </Popover>
-                                            )
-                                        }
-                                    </div>
-
-                                </div>
-                                {
-                                    !loading && (
-                                        <div className="flex items-center m-auto justify-center w-full">
-                                            {
-                                                questions[current_question_num - 1].question_type.type === "likert_scale" && (
-                                                    <LikertScale value={answers[current_qa_index] as number} options={sortedResponseLabels()} onChange={handleControlChange} />
-                                                )
-                                            }
-                                            {
-                                                questions[current_question_num - 1].question_type.type === "rating_scale" && (
-                                                    <SliderScale defaultValue={answers[current_qa_index] as number} onChange={handleControlChange} />
-                                                )
-                                            }
-                                            {
-                                                questions[current_question_num - 1].question_type.type === "value_rating_scale" && (
-                                                    <CoreValueScale currentAnswers={answers[current_qa_index] as ICoreValueAnswer[]} coreValues={coreValues} onChange={handleControlChange} />
-                                                )
-                                            }
-
-                                        </div>
-                                    )
-                                }
-
-                                <div className="flex items-center m-auto justify-center w-full lg:h-20">
-                                    {
-                                        current_question_num < questions.length ? (
-                                            <Button type="primary" size="large" className="px-10 h-12" onClick={() => handleNext(false)}>Next</Button>
-                                        ) : (
-                                            <Button type="primary" size="large" className="px-10 h-12" onClick={() => handleNext(true)}>Submit Survey</Button>
-                                        )
-                                    }
-
-                                </div>
-                            </div>
+                    )}
+                    {currentQuestion?.question_type.type === 'rating_scale' && (
+                        <div className="mt-10 mb-20">
+                            <SliderScale defaultValue={currentQuestionResponse?.answer as number} onChange={handleNumberFieldControlChange} />
                         </div>
-                        <div className='w-32 sm:w-48 m-auto my-20 lg:float-right lg:m-20'>
-                            <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
+                    )}
+                    {currentQuestion?.question_type.type === 'likert_scale' && (
+                        <div className="mt-10 mb-20">
+                            <LikertScale value={currentQuestionResponse?.answer as number} options={sortedResponseLabels()} onChange={handleNumberFieldControlChange} />
                         </div>
-                    </section>
-                </>
-            )}
+                    )}
+                </div>
+                <div className="py-5">
+                    <Button size="large" className="p-8 px-20 mx -5" onClick={goBack}>Back</Button>
+                    <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(false)}>Next</Button>
+                </div>
+            </section>
             <Modal title="Confirm Submission" open={showSubmitModal} onOk={handleOk} onCancel={handleCancel}>
                 <p>Are you sure?</p>
                 <p>You will not be able to make changes after submission</p>

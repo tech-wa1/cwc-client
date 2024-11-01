@@ -11,7 +11,6 @@ const ClientFeedback: React.FC = () => {
     const [feedback, setFeedback] = useState<string>('');
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        console.log(e)
         e.preventDefault();
 
         try {
