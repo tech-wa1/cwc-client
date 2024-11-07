@@ -3,15 +3,16 @@ import ProgressBar from "../../components/ProgressBar/ProgressBar"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import { RootState } from "../../store/store"
 import { useNavigate, useParams } from "react-router-dom"
-import { IQuestion, IResponse } from "../../common/types"
+import { ICoreValueAnswer, IQuestion, IResponse } from "../../common/types"
 import TextField from "../../components/TextField/TextField"
 import { Button, Modal } from "antd"
 // import setValueResponsesThunk from "../../thunks/setValueResponseThunk"
 import { updateResponses, updateSurveyProgress } from "../../store/cwcSlice"
-import { setResponsesThunk, setTextFieldResponsesThunk } from "../../thunks/setResponsesThunk"
+import { setResponsesThunk, setTextFieldResponsesThunk, setValueResponsesThunk } from "../../thunks/setResponsesThunk"
 import completeSurveyThunk from "../../thunks/completeSurveyThunk"
 import SliderScale from "../../components/SliderScale/SliderScale"
 import LikertScale from "../../components/LikertScale/LikertScale"
+import CoreValueScale from "../../components/CoreValueScale/CoreValueScale"
 
 
 const defaultOptions = [{
@@ -34,7 +35,6 @@ const Assessment = () => {
 
     const q_index = parseInt(useParams()?.qindex || "0");
     const { id } = useParams()
-    // const currentQuestionIndex = q_index - 1;
 
     const questions = useAppSelector((root: RootState) => root.cwc.questions)
     const responses = useAppSelector((root: RootState) => root.cwc.responses)
@@ -43,9 +43,9 @@ const Assessment = () => {
 
     const [showSubmitModal, setShowSubmitModal] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(null)
-    const [currentQuestionResponse, setCurrentQuestionResponse] = useState<IResponse | null>(null)
     const [currentTextAnswer, setCurrentTextAnswer] = useState<string>("")
     const [currentNumberAnswer, setCurrentNumberAnswer] = useState<number>(0)
+    const [currentCoreValueAnswers, setCurrentCoreValueAnswers] = useState<ICoreValueAnswer[] | null>(null)
 
     useEffect(() => {
         let question: IQuestion | null = null
@@ -61,11 +61,14 @@ const Assessment = () => {
             if (!currentResponse || currentResponse.length <= 0) {
                 return
             }
-            setCurrentQuestionResponse({ ...currentResponse[0] })
             if (question?.question_type.type === "text_field") {
                 setCurrentTextAnswer(currentResponse[0].answer_text || "")
-            } else {
+            } else if (question?.question_type.type === "value_rating_scale") {
+                setCurrentCoreValueAnswers(currentResponse[0].answer as ICoreValueAnswer[])
+            } else if (typeof currentResponse[0].answer === 'number') {
                 setCurrentNumberAnswer(currentResponse[0].answer || 1)
+            } else {
+                console.error("answer type is incorrect")
             }
         }
     }, [q_index])
@@ -79,13 +82,8 @@ const Assessment = () => {
         setCurrentNumberAnswer(val)
     }
 
-    const getDefaultValue = () => {
-        return coreValues.map(cv => {
-            return {
-                value: cv.id,
-                answer: 1
-            }
-        })
+    const handleValuesFieldControlChange = (coreValueAnswers: ICoreValueAnswer[]) => {
+        setCurrentCoreValueAnswers(coreValueAnswers)
     }
 
     const handleSubmit = () => {
@@ -140,6 +138,22 @@ const Assessment = () => {
                 updateValueInStore(data, currentQuestion.question_type.type)
                 isSubmit ? handleSubmit() : moveToNext()
             }
+        } else if (currentQuestion.question_type.type === "value_rating_scale") {
+            if (!currentCoreValueAnswers || currentQuestion?.question_type.type === "value_rating_scale" && !checkValuesScored()) {
+                alert("Select your score for all core values.")
+                return
+            }
+            const data = {
+                survey: id,
+                participant: pid,
+                question: Number(currentQuestion.id),
+                answer: currentCoreValueAnswers,
+            }
+            const resp = await dispatch(setValueResponsesThunk(data))
+            if (setValueResponsesThunk.fulfilled.match(resp)) {
+                updateValueInStore(data, currentQuestion.question_type.type)
+                isSubmit ? handleSubmit() : moveToNext()
+            }
         } else {
             const data = {
                 survey: id,
@@ -153,28 +167,6 @@ const Assessment = () => {
                 isSubmit ? handleSubmit() : moveToNext()
             }
         }
-
-        //     if (currentQuestion.question_type.type === "value_rating_scale") {
-        //         const resp = await dispatch(setValueResponsesThunk({
-        //             survey: id,
-        //             participant: pid,
-        //             question: Number(currentQuestion.id),
-        //             answer: currentAnswer,
-        //         }))
-        //         if (setValueResponsesThunk.fulfilled.match(resp)) {
-        //             isSubmit ? handleSubmit() : moveToNext()
-        //         }
-        //     } else  else {
-        //         const resp = await dispatch(setResponsesThunk({
-        //             survey: id,
-        //             participant: pid,
-        //             question: Number(currentQuestion.id),
-        //             answer: currentQuestionResponse === undefined ? 1 : currentQuestionResponse,
-        //         }))
-        //         if (setResponsesThunk.fulfilled.match(resp)) {
-        //             isSubmit ? handleSubmit() : moveToNext()
-        //         }
-        //     }
     }
 
 
@@ -213,6 +205,11 @@ const Assessment = () => {
         return resp_labls
     }
 
+    const checkValuesScored = () => {
+        const pendingValues = currentCoreValueAnswers?.filter(cv => cv.answer <= 0)
+        return pendingValues && pendingValues.length <= 0
+    }
+
 
     return (
         <section className="font-roboto text-colorText">
@@ -223,23 +220,33 @@ const Assessment = () => {
                 <div>
                     {currentQuestion?.question_type.type === 'text_field' && (
                         <div>
-                            <TextField placeholder={currentQuestion.description || ""} onChange={handleTextFieldControlChange} defaultValue={currentQuestionResponse?.answer_text || ""} rows={12} />
+                            <TextField placeholder={currentQuestion.description || ""} onChange={handleTextFieldControlChange} defaultValue={currentTextAnswer} rows={12} />
                         </div>
                     )}
                     {currentQuestion?.question_type.type === 'rating_scale' && (
                         <div className="mt-10 mb-20">
-                            <SliderScale defaultValue={currentQuestionResponse?.answer as number} onChange={handleNumberFieldControlChange} />
+                            <SliderScale defaultValue={currentNumberAnswer} onChange={handleNumberFieldControlChange} />
                         </div>
                     )}
                     {currentQuestion?.question_type.type === 'likert_scale' && (
                         <div className="mt-10 mb-20">
-                            <LikertScale value={currentQuestionResponse?.answer as number} options={sortedResponseLabels()} onChange={handleNumberFieldControlChange} />
+                            <LikertScale value={currentNumberAnswer} options={sortedResponseLabels()} onChange={handleNumberFieldControlChange} />
+                        </div>
+                    )}
+                    {currentQuestion?.question_type.type === 'value_rating_scale' && (
+                        <div className="mt-10 mb-20">
+                            <CoreValueScale coreValues={coreValues} currentAnswers={currentCoreValueAnswers} onChange={handleValuesFieldControlChange} />
                         </div>
                     )}
                 </div>
                 <div className="py-5">
                     <Button size="large" className="p-8 px-20 mx -5" onClick={goBack}>Back</Button>
-                    <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(false)}>Next</Button>
+                    {(q_index < questions.length) ? (
+                        <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(false)}>Next</Button>
+                    ) : (
+                        <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(true)}>Submit</Button>
+                    )}
+
                 </div>
             </section>
             <Modal title="Confirm Submission" open={showSubmitModal} onOk={handleOk} onCancel={handleCancel}>

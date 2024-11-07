@@ -33,7 +33,7 @@ const LikertScale = (props: ILikertScale) => {
             {props.options.map((option, index) => (
                 <div key={option.id} className="mr-3">
                     <div
-                        className={`relative h-48 w-40 border border-solid border-slate-200 rounded-2xl  p-2 shadow-xl hover:bg-colorSecondary cursor-pointer text-colorText hover:text-white ${option.value === activeOption ? 'active' : ''}`}
+                        className={`relative h-48 w-40 border border-solid border-slate-200 rounded-2xl  p-2 shadow-lg hover:bg-colorSecondary cursor-pointer text-colorText hover:text-white ${option.value === activeOption ? 'active shadow-xl' : ''}`}
                         onClick={() => handleOptionSelect(option)}
                         tabIndex={index}
                         onKeyUp={event => {

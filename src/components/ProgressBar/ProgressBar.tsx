@@ -8,7 +8,7 @@ const ProgressBar = () => {
 
     return (
         <div>
-            <div className='font-roboto text-xs float-right text-slate-500'>{surveyPercent}%</div>
+            <div className='font-roboto text-xs float-right text-slate-500'>{surveyPercent.toFixed(0)}%</div>
             <Progress percent={surveyPercent} showInfo={false} className="" />
         </div>
     )

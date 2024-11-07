@@ -34,7 +34,7 @@ export interface IResponse {
     question: number;
     survey: string;
     participant: string;
-    answer?: number | null;
+    answer?: number | ICoreValueAnswer[] | null;
     answer_text?: string
 }
 
@@ -47,5 +47,8 @@ export interface ICoreValue {
 
 export interface ICoreValueAnswer {
     value: number,
-    answer: number
+    answer: number,
+    question: number;
+    survey: string;
+    participant: string;
 }

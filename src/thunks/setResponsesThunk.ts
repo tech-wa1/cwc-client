@@ -19,12 +19,12 @@ interface ISetTextFieldResponsesThunk {
     answer_text: string
 }
 
-// interface ISetValueResponsesThunk {
-//     survey: string,
-//     participant: string,
-//     question: number,
-//     answer: number | ICoreValueAnswer[],
-// }
+interface ISetValueResponsesThunk {
+    survey: string,
+    participant: string,
+    question: number,
+    answer: ICoreValueAnswer[],
+}
 
 export const setResponsesThunk = createAsyncThunk(
     'survey/setResponse',
@@ -45,11 +45,11 @@ export const setTextFieldResponsesThunk = createAsyncThunk(
 )
 
 
-// exportconst setValueResponsesThunk = createAsyncThunk(
-//     'survey/setValueResponse',
-//     // if you type your function argument here
-//     async (data: ISetValueResponsesThunk) => {
-//         const response = await post(setValueResponseUrl, data)
-//         return response.data
-//     }
-// )
+export const setValueResponsesThunk = createAsyncThunk(
+    'survey/setValueResponse',
+    // if you type your function argument here
+    async (data: ISetValueResponsesThunk) => {
+        const response = await post(setValueResponseUrl, data)
+        return response.data
+    }
+)

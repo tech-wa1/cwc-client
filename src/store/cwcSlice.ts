@@ -8,7 +8,6 @@ import { IQuestion, IResponse, ICoreValue } from '../common/types'
 import completeSurveyThunk from '../thunks/completeSurveyThunk'
 import getResponsesThunk from '../thunks/getResponsesThunk'
 import getClientValuesThunk from '../thunks/getClientValuesThunk'
-import { setResponsesThunk, setTextFieldResponsesThunk, setValueResponsesThunk } from '../thunks/setResponsesThunk'
 
 export interface CwcState {
     isValidSurvey: boolean,
@@ -81,7 +80,19 @@ export const cwcSlice = createSlice({
             state.surveyCompleted = true
         })
         builder.addCase(getResponsesThunk.fulfilled, (state, action) => {
-            state.responses = action.payload
+            let data = action.payload.responses
+            if (action.payload.value_responses) {
+                const valuesResponse = {
+                    question: action.payload.value_responses[0].question,
+                    survey: action.payload.value_responses[0].question,
+                    participant: action.payload.value_responses[0].question,
+                    answer: action.payload.value_responses
+                }
+                data = [...data, valuesResponse]
+            }
+
+            state.responses = data
+
         })
         builder.addCase(getClientValuesThunk.fulfilled, (state, action) => {
             state.coreValues = action.payload
