@@ -14,17 +14,17 @@ const Header = () => {
     return (
         <>
             <section className="h-16 flex justify-between items-center font-roboto">
-                <div className='w-40 px-20 py-5'>
+                <div className='w-40 px-5 lg:px-20 py-5'>
                     <img src={wa1Logo} alt="competitive wellness logo" className='w-full' />
                 </div>
-                <nav className='mr-20 text-sm'>
+                <nav className='mr-5 lg:mr-20 text-sm'>
                     <menu>
                         <div className='text-colorText cursor-pointer' onClick={() => setModalOpen(true)}>Instructions</div>
                     </menu>
                 </nav>
             </section>
             <Modal open={showInstructions} width={1000} style={{ top: 20 }} onCancel={() => setModalOpen(false)} footer={false}>
-                <div className='font-roboto p-5'>
+                <div className='font-roboto lg:p-5'>
                     <div className='text-2xl'>Instructions </div>
                     <div className='text-lg'>
                         <ul>

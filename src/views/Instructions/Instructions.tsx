@@ -31,9 +31,9 @@ const Instructions = () => {
 
     return (
         <section className="font-roboto text-colorText py-5">
-            <div className="text-5xl py-5">Before we Begin...</div>
-            <div className="text-3xl">Here are some instructions for the assessment</div>
-            <div className="lg:w-[900px]">
+            <div className="text-4xl lg:text-5xl lg:py-5">Before we Begin...</div>
+            <div className="text-2xl lg:text-3xl">Here are some instructions for the assessment</div>
+            <div className="lg:w-[900px] text-lg">
                 <ul>
                     <li className='p-2'>
                         There are no right or wrong answers—your authentic opinion matters most. Your unique perspectives will provide valuable insights.

@@ -68,7 +68,7 @@ const Landing = () => {
                     Ready to begin? Let's get started!
                 </p>
             </div>
-            <div className="rounded-lg w-[600px] py-5">
+            <div className="rounded-lg w-full lg:w-[600px] py-5">
                 <Checkbox defaultChecked={tncLocal} onChange={handleTermsChange} className="">I have read and agreed to the <Link to="/tnc" target="_blank">Terms & Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link></Checkbox>
             </div>
             <div className="py-5">

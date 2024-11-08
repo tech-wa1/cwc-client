@@ -29,11 +29,11 @@ const LikertScale = (props: ILikertScale) => {
     }, [props.value])
 
     return (
-        <div className="flex items-center justify-start">
+        <div className="flex-col flex lg:flex-row items-start lg:items-center justify-start">
             {props.options.map((option, index) => (
-                <div key={option.id} className="mr-3">
+                <div key={option.id} className="my-3 lg:mr-3 w-full lg:w-auto">
                     <div
-                        className={`relative h-48 w-40 border border-solid border-slate-200 rounded-2xl  p-2 shadow-lg hover:bg-colorSecondary cursor-pointer text-colorText hover:text-white ${option.value === activeOption ? 'active shadow-xl' : ''}`}
+                        className={`relative lg:h-48 lg:w-40 border border-solid border-slate-200 rounded-2xl p-2 shadow-lg hover:bg-colorSecondary cursor-pointer text-colorText hover:text-white flex items-center lg:block ${option.value === activeOption ? 'active shadow-xl' : ''}`}
                         onClick={() => handleOptionSelect(option)}
                         tabIndex={index}
                         onKeyUp={event => {
@@ -47,10 +47,10 @@ const LikertScale = (props: ILikertScale) => {
                                 <CheckCircleOutlined className="text-colorPrimary text-2xl absolute top-2 right-2" />
                             )
                         }
-                        <div className="flex items-center justify-center w-20 p-5 py-7 m-auto">
+                        <div className="flex items-center justify-center w-10 lg:w-20 p-5 lg:p-5 lg:py-7 lg:m-auto">
                             <img className="w-full" src={option.icon_url} alt="option image" />
                         </div>
-                        <div className='text-3xl text-center font-thin' >
+                        <div className='text-3xl lg:text-center font-thin' >
                             {option.label}
                         </div>
                     </div>

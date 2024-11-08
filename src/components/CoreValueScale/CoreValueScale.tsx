@@ -82,8 +82,8 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 
 
 	return (
-		<section className="bg-colorSecondary w-10/12 rounded-lg flex items-center justify-center border border-solid border-colorSecondary text-white">
-			<div className="w-3/12 min-h-96 flex flex-col justify-center">
+		<section className="bg-colorSecondary w-full lg:w-10/12 rounded-lg flex items-center justify-center lg:border border-solid border-colorSecondary text-white">
+			<div className="w-3/12 min-h-96 flex-col justify-center hidden lg:flex">
 				{props.coreValues.map((coreValue, index) => (
 					<div key={coreValue.id} onClick={() => selectOption(coreValue, index)} className={`px-10 py-5 w-full text-xl font-roboto cursor-pointer hover:text-colorPrimary ${activeOption && activeOption.id === coreValue.id ? 'bg-white text-colorPrimary' : ''}`}>
 						<div className="flex items-center justify-start">
@@ -97,10 +97,10 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 					</div>
 				))}
 			</div>
-			<div className="w-9/12 bg-white rounded-lg min-h-96 text-colorSecondary">
+			<div className="w-full lg:w-9/12 bg-white rounded-lg min-h-96 text-colorSecondary">
 				{
 					activeOption && (
-						<div className="p-10">
+						<div className="p-3 py-3 lg:p-10">
 							<div className="text-4xl font-thin">{activeOption.title}</div>
 							<div className="text-lg py-2 text-slate-400">{activeOption.description}</div>
 							<div className=" relative" key={`ev${getCurrentScoreById(activeOption.id)}`}>

@@ -215,16 +215,16 @@ const Assessment = () => {
         <section className="font-roboto text-colorText">
             <ProgressBar />
             <section className="question-box py-10">
-                <div className="font-light text-4xl lg:w-[900px]">{currentQuestion?.question}</div>
-                <div className="font-bold text-lg lg:w-[900px] my-5">{currentQuestion?.description}</div>
+                <div className="font-light text-2xl lg:text-4xl w-full lg:w-[900px]">{currentQuestion?.question}</div>
+                <div className="lg:font-bold text-sm lg:text-lg lg:w-[900px] my-2 lg:my-5">{currentQuestion?.description}</div>
                 <div>
                     {currentQuestion?.question_type.type === 'text_field' && (
-                        <div>
+                        <div className="mt-10 mb-20">
                             <TextField placeholder={currentQuestion.description || ""} onChange={handleTextFieldControlChange} defaultValue={currentTextAnswer} rows={12} />
                         </div>
                     )}
                     {currentQuestion?.question_type.type === 'rating_scale' && (
-                        <div className="mt-10 mb-20">
+                        <div className="lg:mt-10 mb-20">
                             <SliderScale defaultValue={currentNumberAnswer} onChange={handleNumberFieldControlChange} />
                         </div>
                     )}
@@ -240,11 +240,11 @@ const Assessment = () => {
                     )}
                 </div>
                 <div className="py-5">
-                    <Button size="large" className="p-8 px-20 mx -5" onClick={goBack}>Back</Button>
+                    <Button size="large" className="p-8 lg:px-20 mr-5" onClick={goBack}>Back</Button>
                     {(q_index < questions.length) ? (
-                        <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(false)}>Next</Button>
+                        <Button size="large" className="p-8 lg:px-20 mr-5" type="primary" onClick={() => handleNext(false)}>Next</Button>
                     ) : (
-                        <Button size="large" className="p-8 px-20 mx-5" type="primary" onClick={() => handleNext(true)}>Submit</Button>
+                        <Button size="large" className="p-8 lg:px-20 mr-5" type="primary" onClick={() => handleNext(true)}>Submit</Button>
                     )}
 
                 </div>

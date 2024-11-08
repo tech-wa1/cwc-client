@@ -41,7 +41,7 @@ const Base = () => {
                 !isLoading && isSurveyValid && (
                     <>
                         <Header></Header>
-                        <div className='px-20'>
+                        <div className='px-10 lg:px-20'>
                             <Outlet />
                         </div>
                     </>
