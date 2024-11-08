@@ -82,10 +82,10 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 
 
 	return (
-		<section className="bg-colorSecondary w-full lg:w-10/12 rounded-lg flex items-center justify-center lg:border border-solid border-colorSecondary text-white">
-			<div className="w-3/12 min-h-96 flex-col justify-center hidden lg:flex">
+		<section className="bg-colorSecondary w-full xl:w-10/12 rounded-lg flex items-center justify-center lg:border border-solid border-colorSecondary text-white">
+			<div className="w-3/12 min-h-96 flex-col justify-center hidden xl:flex">
 				{props.coreValues.map((coreValue, index) => (
-					<div key={coreValue.id} onClick={() => selectOption(coreValue, index)} className={`px-10 py-5 w-full text-xl font-roboto cursor-pointer hover:text-colorPrimary ${activeOption && activeOption.id === coreValue.id ? 'bg-white text-colorPrimary' : ''}`}>
+					<div key={coreValue.id} onClick={() => selectOption(coreValue, index)} className={`px-10 py-5 text-xl font-roboto cursor-pointer hover:text-colorPrimary ${activeOption && activeOption.id === coreValue.id ? 'bg-white text-colorPrimary' : ''}`}>
 						<div className="flex items-center justify-start">
 							<div className="px-2">
 								<CheckCircleOutlined className={`${isCurrentValueScored(coreValue.id) ? 'text-colorPrimary' : ''}`} />
@@ -97,7 +97,7 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 					</div>
 				))}
 			</div>
-			<div className="w-full lg:w-9/12 bg-white rounded-lg min-h-96 text-colorSecondary">
+			<div className="w-full xl:w-9/12 bg-white rounded-lg min-h-96 text-colorSecondary">
 				{
 					activeOption && (
 						<div className="p-3 py-3 lg:p-10">
