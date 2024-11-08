@@ -82,7 +82,7 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 
 
 	return (
-		<section className="bg-colorSecondary w-full xl:w-10/12 rounded-lg flex items-center justify-center lg:border border-solid border-colorSecondary text-white">
+		<section className="bg-colorSecondary w-full xl:w-10/12 rounded-lg flex items-center justify-center lg:border border-solid border-colorSecondary text-white max-w-[1500px]">
 			<div className="w-3/12 min-h-96 flex-col justify-center hidden xl:flex">
 				{props.coreValues.map((coreValue, index) => (
 					<div key={coreValue.id} onClick={() => selectOption(coreValue, index)} className={`px-10 py-5 text-xl font-roboto cursor-pointer hover:text-colorPrimary ${activeOption && activeOption.id === coreValue.id ? 'bg-white text-colorPrimary' : ''}`}>
