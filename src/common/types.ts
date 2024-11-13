@@ -47,8 +47,5 @@ export interface ICoreValue {
 
 export interface ICoreValueAnswer {
     value: number,
-    answer: number,
-    question: number;
-    survey: string;
-    participant: string;
+    answer: number
 }

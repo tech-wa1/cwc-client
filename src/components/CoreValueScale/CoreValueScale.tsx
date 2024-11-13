@@ -55,7 +55,7 @@ const CoreValueScale = (props: ICoreValueScaleProps) => {
 			if (valueScore.value === id) {
 				return {
 					value: id,
-					answer: answer
+					answer: answer,
 				}
 			}
 			return valueScore
