@@ -81,7 +81,7 @@ export const cwcSlice = createSlice({
         })
         builder.addCase(getResponsesThunk.fulfilled, (state, action) => {
             let data = action.payload.responses
-            if (action.payload.value_responses) {
+            if (action.payload.value_responses && action.payload.value_responses.length > 0) {
                 const valuesResponse = {
                     question: action.payload.value_responses[0].question,
                     survey: action.payload.value_responses[0].question,

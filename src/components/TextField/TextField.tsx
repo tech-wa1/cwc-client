@@ -25,7 +25,7 @@ const TextField = (props: ITextField) => {
 
     return (
         <div className="w-full lg:w-[800px] gradient-control">
-            <TextArea className="border-slate-300 border-2" rows={props.rows || 4} placeholder={props.placeholder} value={value} onChange={(e) => handleOnChange(e.target.value)} />
+            <TextArea className="border-slate-300 border-2" rows={props.rows || 4} placeholder="Please Enter your response here" value={value} onChange={(e) => handleOnChange(e.target.value)} />
         </div>
 
     )

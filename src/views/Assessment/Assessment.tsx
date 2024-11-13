@@ -64,14 +64,15 @@ const Assessment = () => {
             if (question?.question_type.type === "text_field") {
                 setCurrentTextAnswer(currentResponse[0].answer_text || "")
             } else if (question?.question_type.type === "value_rating_scale") {
-                setCurrentCoreValueAnswers(currentResponse[0].answer as ICoreValueAnswer[])
+                setCurrentCoreValueAnswers(currentResponse[0].answer as ICoreValueAnswer[] || null)
             } else if (typeof currentResponse[0].answer === 'number') {
-                setCurrentNumberAnswer(currentResponse[0].answer || 1)
+                setCurrentNumberAnswer(currentResponse[0].answer || 0)
             } else {
                 console.error("answer type is incorrect")
             }
         }
     }, [q_index])
+
 
 
     const handleTextFieldControlChange = (val: string) => {
@@ -120,6 +121,14 @@ const Assessment = () => {
         dispatch(updateResponses([...responsesCopy]))
     }
 
+    const validateNumberResponse = () => {
+        if (!currentNumberAnswer || currentNumberAnswer === 0) {
+            alert("Please select a value")
+            return false;
+        }
+        return true
+    }
+
     const handleNext = async (isSubmit: Boolean = false) => {
         if (!currentQuestion || !id) {
             return
@@ -155,6 +164,8 @@ const Assessment = () => {
                 isSubmit ? handleSubmit() : moveToNext()
             }
         } else {
+            if (!validateNumberResponse()) { return }
+
             const data = {
                 survey: id,
                 participant: pid,
