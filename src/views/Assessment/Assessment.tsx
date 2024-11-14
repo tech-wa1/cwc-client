@@ -54,6 +54,7 @@ const Assessment = () => {
     }
 
     useEffect(() => {
+        resetCurrentAnswers()
         let question: IQuestion | null = null
         if (questions.length > 0) {
             question = questions.filter((q) => q.q_index === q_index)[0]
@@ -76,8 +77,6 @@ const Assessment = () => {
             } else {
                 console.error("answer type is incorrect")
             }
-        } else {
-            resetCurrentAnswers()
         }
     }, [q_index])
 
