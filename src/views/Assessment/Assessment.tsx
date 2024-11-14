@@ -107,26 +107,6 @@ const Assessment = () => {
 
     }
 
-    const updateValueInStore = (data: IResponse, q_type: string) => {
-        const responsesCopy = responses.map(resp => {
-            if (resp.question === data.question) {
-                if (q_type === "text_field") {
-                    const respCopy = { ...resp }
-                    respCopy.answer_text = data.answer_text
-                    return respCopy
-                } else {
-                    const respCopy = { ...resp }
-                    respCopy.answer = data.answer
-                    return respCopy
-                }
-
-            }
-            return resp
-        })
-
-        dispatch(updateResponses([...responsesCopy]))
-    }
-
 
     const handleNext = async (isSubmit: Boolean = false) => {
         if (!currentQuestion || !id) {
@@ -143,7 +123,6 @@ const Assessment = () => {
             }
             const resp = await dispatch(setTextFieldResponsesThunk(data))
             if (setTextFieldResponsesThunk.fulfilled.match(resp)) {
-                updateValueInStore(data, currentQuestion.question_type.type)
                 isSubmit ? handleSubmit() : moveToNext()
             }
         } else if (currentQuestion.question_type.type === "value_rating_scale") {
@@ -159,7 +138,6 @@ const Assessment = () => {
             }
             const resp = await dispatch(setValueResponsesThunk(data))
             if (setValueResponsesThunk.fulfilled.match(resp)) {
-                updateValueInStore(data, currentQuestion.question_type.type)
                 isSubmit ? handleSubmit() : moveToNext()
             }
         } else {
@@ -176,7 +154,6 @@ const Assessment = () => {
             }
             const resp = await dispatch(setResponsesThunk(data))
             if (setResponsesThunk.fulfilled.match(resp)) {
-                updateValueInStore(data, currentQuestion.question_type.type)
                 isSubmit ? handleSubmit() : moveToNext()
             }
         }
