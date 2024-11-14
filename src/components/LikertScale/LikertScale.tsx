@@ -12,12 +12,12 @@ interface IOption {
 interface ILikertScale {
     options: Array<IOption>;
     onChange: (answer: number) => void;
-    value: number
+    value: number | null
 }
 
 const LikertScale = (props: ILikertScale) => {
 
-    const [activeOption, setActiveOption] = useState<number>()
+    const [activeOption, setActiveOption] = useState<number | null>()
 
     const handleOptionSelect = (option: IOption) => {
         setActiveOption(option.value)

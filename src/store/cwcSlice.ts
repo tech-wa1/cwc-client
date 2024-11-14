@@ -8,6 +8,7 @@ import { IQuestion, IResponse, ICoreValue } from '../common/types'
 import completeSurveyThunk from '../thunks/completeSurveyThunk'
 import getResponsesThunk from '../thunks/getResponsesThunk'
 import getClientValuesThunk from '../thunks/getClientValuesThunk'
+import { setResponsesThunk, setTextFieldResponsesThunk, setValueResponsesThunk } from '../thunks/setResponsesThunk'
 
 export interface CwcState {
     isValidSurvey: boolean,
@@ -96,6 +97,48 @@ export const cwcSlice = createSlice({
         })
         builder.addCase(getClientValuesThunk.fulfilled, (state, action) => {
             state.coreValues = action.payload
+        })
+        builder.addCase(setResponsesThunk.fulfilled, (state, action) => {
+            let data = action.payload.responses
+            if (action.payload.value_responses && action.payload.value_responses.length > 0) {
+                const valuesResponse = {
+                    question: action.payload.value_responses[0].question,
+                    survey: action.payload.value_responses[0].question,
+                    participant: action.payload.value_responses[0].question,
+                    answer: action.payload.value_responses
+                }
+                data = [...data, valuesResponse]
+            }
+
+            state.responses = data
+        })
+        builder.addCase(setTextFieldResponsesThunk.fulfilled, (state, action) => {
+            let data = action.payload.responses
+            if (action.payload.value_responses && action.payload.value_responses.length > 0) {
+                const valuesResponse = {
+                    question: action.payload.value_responses[0].question,
+                    survey: action.payload.value_responses[0].question,
+                    participant: action.payload.value_responses[0].question,
+                    answer: action.payload.value_responses
+                }
+                data = [...data, valuesResponse]
+            }
+
+            state.responses = data
+        })
+        builder.addCase(setValueResponsesThunk.fulfilled, (state, action) => {
+            let data = action.payload.responses
+            if (action.payload.value_responses && action.payload.value_responses.length > 0) {
+                const valuesResponse = {
+                    question: action.payload.value_responses[0].question,
+                    survey: action.payload.value_responses[0].question,
+                    participant: action.payload.value_responses[0].question,
+                    answer: action.payload.value_responses
+                }
+                data = [...data, valuesResponse]
+            }
+
+            state.responses = data
         })
     }
 })

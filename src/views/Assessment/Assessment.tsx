@@ -44,8 +44,14 @@ const Assessment = () => {
     const [showSubmitModal, setShowSubmitModal] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(null)
     const [currentTextAnswer, setCurrentTextAnswer] = useState<string>("")
-    const [currentNumberAnswer, setCurrentNumberAnswer] = useState<number>(0)
+    const [currentNumberAnswer, setCurrentNumberAnswer] = useState<number | null>(0)
     const [currentCoreValueAnswers, setCurrentCoreValueAnswers] = useState<ICoreValueAnswer[] | null>(null)
+
+    const resetCurrentAnswers = () => {
+        setCurrentTextAnswer("")
+        setCurrentCoreValueAnswers(null)
+        setCurrentNumberAnswer(null)
+    }
 
     useEffect(() => {
         let question: IQuestion | null = null
@@ -66,13 +72,14 @@ const Assessment = () => {
             } else if (question?.question_type.type === "value_rating_scale") {
                 setCurrentCoreValueAnswers(currentResponse[0].answer as ICoreValueAnswer[] || null)
             } else if (typeof currentResponse[0].answer === 'number') {
-                setCurrentNumberAnswer(currentResponse[0].answer || 0)
+                setCurrentNumberAnswer(currentResponse[0].answer || null)
             } else {
                 console.error("answer type is incorrect")
             }
+        } else {
+            resetCurrentAnswers()
         }
     }, [q_index])
-
 
 
     const handleTextFieldControlChange = (val: string) => {
@@ -121,13 +128,6 @@ const Assessment = () => {
         dispatch(updateResponses([...responsesCopy]))
     }
 
-    const validateNumberResponse = () => {
-        if (!currentNumberAnswer || currentNumberAnswer === 0) {
-            alert("Please select a value")
-            return false;
-        }
-        return true
-    }
 
     const handleNext = async (isSubmit: Boolean = false) => {
         if (!currentQuestion || !id) {
@@ -164,7 +164,10 @@ const Assessment = () => {
                 isSubmit ? handleSubmit() : moveToNext()
             }
         } else {
-            if (!validateNumberResponse()) { return }
+            if (!currentNumberAnswer) {
+                alert("Please select a value")
+                return false;
+            }
 
             const data = {
                 survey: id,

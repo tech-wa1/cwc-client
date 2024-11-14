@@ -3,7 +3,7 @@ import { ConfigProvider, Slider, SliderSingleProps } from "antd";
 
 interface ISliderScale {
     onChange: (answer: number) => void;
-    defaultValue: number
+    defaultValue?: number | null
 }
 
 const sliderTheme = {
@@ -41,7 +41,7 @@ const SliderScale = (props: ISliderScale) => {
     return (
         <ConfigProvider theme={sliderTheme}>
             <div className="w-full lg:max-w-[800px] gradient-control" key={`sld${props.defaultValue || 0}`}>
-                <Slider marks={marks} step={1} defaultValue={props.defaultValue} max={10} min={1} onChangeComplete={handleOnChange} />
+                <Slider marks={marks} step={1} defaultValue={props.defaultValue || 0} max={10} min={1} onChangeComplete={handleOnChange} />
             </div>
         </ConfigProvider>
 
